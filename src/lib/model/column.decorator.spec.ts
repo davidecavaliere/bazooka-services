@@ -41,13 +41,13 @@ test('entityntity decorator', t => {
   t.is(instance instanceof TestClass, true);
 });
 
-test('should store some metadata', t => {
-
-  d('schema definition', getColumnMetadata(instance));
-
-  // t.deepEqual(getColumnMetadata(instance), [{
-  //   type: SchemaTypes.String
-  // }, {
-  //   type: SchemaTypes.String
-  // }]);
-});
+// test('should store some metadata', t => {
+//
+//   d('schema definition', getColumnMetadata(instance));
+//
+//   t.deepEqual(getColumnMetadata(instance), [{
+//     type: SchemaTypes.String
+//   }, {
+//     type: SchemaTypes.String
+//   }]);
+// });
