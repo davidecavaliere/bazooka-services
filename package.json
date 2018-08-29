@@ -33,7 +33,6 @@
     "clean": "trash build test",
     "all": "run-s reset test cov:check doc:html",
     "prepare-release": "run-s all version doc:publish",
-    "preinstall": "node -e \"if(process.env.npm_execpath.indexOf('yarn') === -1) throw new Error('users must be installed with Yarn: https://yarnpkg.com/')\"",
     "sls": "sls",
     "sls:offline": "sls offline start --host 0.0.0.0",
     "watch:sls": "tsnodemon -x 'sls:offline'",
