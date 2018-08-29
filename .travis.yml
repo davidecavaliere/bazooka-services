@@ -1,0 +1,16 @@
+language: node_js
+node_js:
+  - '8'
+script:
+  - npm run build
+  - npm run test
+  - npm run sls deploy --stage dev
+#after_script:
+#  - 'cat coverage/lcov.info | ./node_modules/.bin/coveralls' # sends the coverage report to coveralls
+deploy:
+#  provider: npm
+#  email: cavaliere.davide@gmail.com
+#  api_key: $NPM_TOKEN
+#  on:
+#    tags: true
+
