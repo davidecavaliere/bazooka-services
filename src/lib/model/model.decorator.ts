@@ -1,4 +1,5 @@
 import 'reflect-metadata';
+import { SchemaType } from 'mongoose';
 
 const ModelMetadata = Symbol('Model');
 

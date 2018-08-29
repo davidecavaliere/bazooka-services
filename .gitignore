@@ -9,3 +9,5 @@ coverage
 
 package-lock.json
 .idea
+.serverless
+yarn.lock

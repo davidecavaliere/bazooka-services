@@ -1,32 +1,56 @@
-import { Model } from '../lib/model/model.decorator';
+import { Entity } from '../lib/entity/entity.decorator';
+import { MongoCollection } from '../lib/mongo/collection';
+import { Column } from '../lib/model/column.decorator';
+import { SchemaTypes } from 'mongoose';
 
-@Model({
+@Entity({
+
   // table name
-  name: 'user'
+  name: 'user',
+  uri:  process.env['MONGODB_ATLAS_CLUSTER_URI'] || 'mongodb://192.168.254.3:27017/test'
 })
-export class User {
-  public name: String;
-  
-  // @Format('toLowerCase')
-  public email: String;
-  
-  public role: Role;
-  
-  // @Protected()
-  public hashedPassword: String;
-  
-  public provider: String;
-  
-  // @Protected()
-  public salt: String;
-  
-  public avatar : String;
+export class User extends MongoCollection {
 
-  public company : {};
-  public settings : {};
+  @Column({
+    type: SchemaTypes.String
+  })
+  public name: string;
 
-  constructor() {
+  @Column({ type: SchemaTypes.String, lowercase: true })
+  public email: string;
+
+  @Column({
+    type: SchemaTypes.String,
+    default: 'pawn'
+  })
+  public role: any;
+
+  @Column({
+    type: SchemaTypes.String
+  })
+  // @Virtual()
+  // @Private()
+  public hashedPassword: string;
 
 
-  }
+  @Column({
+    type: SchemaTypes.String
+  })
+  // @Virtual()
+  // @Private()
+  public salt: string;
+
+  @Column({
+    type: SchemaTypes.ObjectId
+  })
+  public company;
+
+  @Column({
+    type: {},
+    default: {
+      welcome: true
+    }
+  })
+  public settings;
+
 }

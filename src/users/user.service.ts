@@ -1,59 +1,75 @@
-import { Endpoint, Service } from '@microgamma/apigator';
+import { User } from './user.model';
+import { Lambda,  Endpoint } from '@microgamma/apigator';
+import { getDebugger } from '@microgamma/ts-debug';
 
-@Service({
-  name: 'UserService'
+const d = getDebugger('microgamma:service:user');
+
+@Endpoint({
+  name: 'UserEndpoint'
 })
 export class UserService {
+  private userPersistence = new User();
 
-  @Endpoint({
+  constructor() {
+    d('running constructor');
+  }
+
+  @Lambda({
     name: 'findAll',
     path: '/',
-    method: 'GET'
+    method: 'GET',
+    cors: true,
+    private: true
   })
-  public findAll() {
-    return [{
-      id: 1,
-      title: 'Il nome della rosa',
-      author: 'Umberto Eco'
-    }];
+  public async findAll() {
+    return this.userPersistence.findAll();
   }
 
-  @Endpoint({
+  @Lambda({
     name: 'findById',
-    path: '/:id',
-    method: 'GET'
+    path: '/{id}',
+    method: 'GET',
+    cors: true,
+    private: true
   })
-  public findById(id) {
-    return {
-      id: id,
-      title: 'Il nome della rosa',
-      author: 'Umberto Eco'
-    }
+  public async findById(id) {
+    return this.userPersistence.findOne(id);
   }
 
-  @Endpoint({
+  @Lambda({
     name: 'create',
     path: '/',
-    method: 'POST'
+    method: 'POST',
+    cors: true,
+    private: true
   })
-
-  public create(body) {
-    console.log('need to get post body here', body);
-    return body;
+  public async create(email, password) {
+    console.log('email, password', email, password);
+    return this.userPersistence.create({
+      email, password
+    });
   }
 
-  @Endpoint({
+  @Lambda({
     name: 'update',
-    path: '/:id',
-    method: 'PUT'
+    path: '/',
+    method: 'PUT',
+    cors: true,
+    private: true
   })
-  public update () {}
+  public async update (body) {
+    return this.userPersistence.update(body);
+  }
 
-  @Endpoint({
+  @Lambda({
     name: 'remove',
-    path: '/:id',
-    method: 'DELETE'
+    path: '/{id}',
+    method: 'DELETE',
+    cors: true,
+    private: true
   })
-  public remove() {}
+  public async remove(id) {
+    return this.userPersistence.delete(id);
+  }
 
 }

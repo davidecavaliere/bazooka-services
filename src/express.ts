@@ -1,10 +1,9 @@
 import debug = require('debug');
 import express = require('express');
 import bodyParser = require('body-parser');
-import { boostrap } from '@microgamma/apigator';
-import { getEndpointMetadata, getServiceMetadata } from '@microgamma/apigator';
 import 'reflect-metadata';
 import { UserService } from './users/user.service';
+import { boostrap, getEndpointMetadata, getLambdaMetadata } from '@microgamma/apigator';
 
 const d: debug.IDebugger = debug('lambda:example:express.ts');
 
@@ -24,29 +23,29 @@ app.use(bodyParser.json());
 // server.on('listening', onListening);
 
 const service: UserService = boostrap(UserService, '');
-d('service', getServiceMetadata(UserService));
+d('service', getEndpointMetadata(UserService));
 
 
 app.get('/echo/:word', (req, res) => {
   res.json(req.params.word);
 });
 
-const endpoints = getEndpointMetadata(service);
-d('endpoints', endpoints);
+const lambdas = getLambdaMetadata(service);
+d('lambdas', lambdas);
 
-for (const endpoint of endpoints) {
-  d('adding endpoint', endpoint);
+for (const lambda of lambdas) {
+  d('adding lambda', lambda);
 
-  d('adding method', endpoint.method.toLowerCase());
-  app[endpoint.method.toLowerCase()](endpoint.path, (req, res) => {
+  d('adding method', lambda.method.toLowerCase());
+  app[lambda.method.toLowerCase()](lambda.path, (req, res) => {
 
     d('params', req.params);
     d('body', req.body);
-    service[endpoint.name].apply(service, [
+    service[lambda.name].apply(service, [
       parseExpressJSRequest(req), // event
-      null, // context
+      res, // context
       (...args) => {
-        d('calling callback with', args);
+        // d('calling callback with', args);
         const retValue = args[1];
         res.json(retValue);
       }// cb
