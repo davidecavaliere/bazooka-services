@@ -34,9 +34,8 @@
     "all": "run-s reset test cov:check doc:html",
     "prepare-release": "run-s all version doc:publish",
     "sls": "sls",
-    "sls:offline": "sls offline start --host 0.0.0.0",
-    "watch:sls": "tsnodemon -x 'sls:offline'",
-    "tsnodemon": "tsnodemon"
+    "sls:offline": "nodemon -w build/main --exec \"sls offline start --host 0.0.0.0\"",
+    "watch:sls:offline": "run-s clean build:main && run-p \"build:main -- -w\" \"sls:offline\""
   },
   "scripts-info": {
     "info": "Display information about the package scripts",
