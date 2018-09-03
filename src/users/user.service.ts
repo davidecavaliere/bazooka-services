@@ -7,7 +7,9 @@ import { RestApiService } from '../lib/rest-api/rest-api.service';
 const d = getDebugger('microgamma:service:user');
 
 @Endpoint({
-  name: 'UserEndpoint'
+  name: 'UserEndpoint',
+  private: true,
+  cors: true
 })
 @Persistence(User)
 export class UserService extends RestApiService {
@@ -15,9 +17,7 @@ export class UserService extends RestApiService {
   @Lambda({
     name: 'findAll',
     path: '/',
-    method: 'GET',
-    cors: true,
-    private: true
+    method: 'GET'
   })
   public async findAll() {
     return this.persistenceService.findAll();
@@ -26,9 +26,7 @@ export class UserService extends RestApiService {
   @Lambda({
     name: 'findById',
     path: '/{id}',
-    method: 'GET',
-    cors: true,
-    private: true
+    method: 'GET'
   })
   public async findById(id) {
     return this.persistenceService.findOne(id);
@@ -37,9 +35,7 @@ export class UserService extends RestApiService {
   @Lambda({
     name: 'create',
     path: '/',
-    method: 'POST',
-    cors: true,
-    private: true
+    method: 'POST'
   })
   public async create(email, password) {
     console.log('email, password', email, password);
@@ -51,9 +47,7 @@ export class UserService extends RestApiService {
   @Lambda({
     name: 'update',
     path: '/',
-    method: 'PUT',
-    cors: true,
-    private: true
+    method: 'PUT'
   })
   public async update (body) {
     return this.persistenceService.update(body);
@@ -62,12 +56,11 @@ export class UserService extends RestApiService {
   @Lambda({
     name: 'remove',
     path: '/{id}',
-    method: 'DELETE',
-    cors: true,
-    private: true
+    method: 'DELETE'
   })
   public async remove(id) {
     return this.persistenceService.delete(id);
   }
+
 
 }
