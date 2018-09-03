@@ -54,11 +54,12 @@
     "node": ">=8.9"
   },
   "dependencies": {
-    "@microgamma/apigator": "^1.6.9",
-    "@microgamma/serverless-apigator": "^1.2.9",
+    "@microgamma/apigator": "^1.6.11",
+    "@microgamma/serverless-apigator": "^1.2.11",
     "@microgamma/ts-debug": "^0.3.1",
     "@types/aws-lambda": "^8.10.11",
     "@types/mongoose": "^5.2.5",
+    "crypto": "^1.0.1",
     "mongoose": "^5.2.7"
   },
   "devDependencies": {
