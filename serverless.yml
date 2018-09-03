@@ -24,6 +24,8 @@ provider:
   region: eu-west-2
   apiKeys:
     - apiKey
+  environment:
+    MONGODB_ATLAS_CLUSTER_URI: ${env:MONGODB_ATLAS_CLUSTER_URI, 'mongodb://192.168.254.3:27017/test'}
 
 
 plugins:
