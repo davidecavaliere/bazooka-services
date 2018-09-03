@@ -1,18 +1,16 @@
 import { User } from './user.model';
 import { Lambda,  Endpoint } from '@microgamma/apigator';
 import { getDebugger } from '@microgamma/ts-debug';
+import { Persistence } from '../lib/di/persistence.decorator';
+import { RestApiService } from '../lib/rest-api/rest-api.service';
 
 const d = getDebugger('microgamma:service:user');
 
 @Endpoint({
   name: 'UserEndpoint'
 })
-export class UserService {
-  private userPersistence = new User();
-
-  constructor() {
-    d('running constructor');
-  }
+@Persistence(User)
+export class UserService extends RestApiService {
 
   @Lambda({
     name: 'findAll',
@@ -22,7 +20,7 @@ export class UserService {
     private: true
   })
   public async findAll() {
-    return this.userPersistence.findAll();
+    return this.persistenceService.findAll();
   }
 
   @Lambda({
@@ -33,7 +31,7 @@ export class UserService {
     private: true
   })
   public async findById(id) {
-    return this.userPersistence.findOne(id);
+    return this.persistenceService.findOne(id);
   }
 
   @Lambda({
@@ -45,7 +43,7 @@ export class UserService {
   })
   public async create(email, password) {
     console.log('email, password', email, password);
-    return this.userPersistence.create({
+    return this.persistenceService.create({
       email, password
     });
   }
@@ -58,7 +56,7 @@ export class UserService {
     private: true
   })
   public async update (body) {
-    return this.userPersistence.update(body);
+    return this.persistenceService.update(body);
   }
 
   @Lambda({
@@ -69,7 +67,7 @@ export class UserService {
     private: true
   })
   public async remove(id) {
-    return this.userPersistence.delete(id);
+    return this.persistenceService.delete(id);
   }
 
 }
