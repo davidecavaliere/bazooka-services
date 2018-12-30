@@ -1,4 +1,7 @@
 import 'reflect-metadata';
+import { getDebugger } from '@microgamma/ts-debug';
+
+const d = getDebugger('microgamma:entity.decorator');
 
 const EntityMetadata = Symbol('Entity');
 
@@ -8,10 +11,17 @@ export interface EntityOptions {
 }
 
 export function Entity(options: EntityOptions): ClassDecorator {
-  // console.log('constructing a class decorator', options)
+  d('decorating with', options);
+
   return <TFunction extends Function>(target: TFunction) => {
-    // console.log('decorating a class', target);
-    Reflect.metadata(EntityMetadata, options)(target);
+    d('decorating', target.constructor.name);
+
+
+    d(target.constructor.toString());
+
+
+    return Reflect.metadata(EntityMetadata, options)(target);
+
   };
 }
 

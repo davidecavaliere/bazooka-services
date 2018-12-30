@@ -1,24 +1,34 @@
 import { getDebugger } from '@microgamma/ts-debug';
-import { Types } from 'mongoose/lib/schema';
+import { MongoClientOptions } from 'mongodb';
 
-const d = getDebugger('microgamma:inject.decorator');
+const d = getDebugger('microgamma:persistence.decorator');
 
 const PersistenceMetadata = Symbol('Persistence');
 
+export interface PersistenceServiceOptions {
+  collection: string;
+  uri: string;
+  dbName: string;
+  options?: MongoClientOptions;
+  model: any
+}
 
-export function Persistence(persistenceService): ClassDecorator {
+export function Persistence(options: PersistenceServiceOptions): ClassDecorator {
 
-  d('running inject decorator');
+  d('running persistence decorator');
 
   return <TFunction extends Function>(target: TFunction) => {
 
     d('target', target);
+    d('options', options);
 
-    Reflect.defineMetadata(PersistenceMetadata, persistenceService, target);
+    Reflect.metadata(PersistenceMetadata, options)(target);
+    d('metadata stored', Reflect.getMetadata(PersistenceMetadata, target));
   };
 }
 
-export function getPersistenceMetadata(instance): (...args) => void {
-  d('getting persistence class', instance.constructor);
-  return Reflect.getMetadata(PersistenceMetadata, instance.constructor);
+export function getPersistenceMetadata(instance): PersistenceServiceOptions {
+  const metadata = Reflect.getMetadata(PersistenceMetadata, instance.constructor);
+  d('getting persistence metadata', metadata);
+  return metadata;
 }

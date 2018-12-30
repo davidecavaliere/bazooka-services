@@ -1,57 +1,57 @@
-import { Entity } from '../lib/entity/entity.decorator';
-import { MongoCollection } from '../lib/mongo/collection';
 import { Column } from '../lib/model/column.decorator';
-import { SchemaTypes } from 'mongoose';
-import * as crypto from 'crypto';
-import { Virtual } from '../lib/model/virtual.decorator';
+import { BaseModel } from '../lib/model/model';
+import { getDebugger } from '@microgamma/ts-debug';
+import crypto = require('crypto');
 
-@Entity({
-  // table name
-  name: 'user',
-  uri:  process.env['MONGODB_ATLAS_CLUSTER_URI']
-})
-export class User extends MongoCollection {
+const d = getDebugger('microgamma:user.model');
 
-  @Column({
-    type: SchemaTypes.String
-  })
+
+export class User extends BaseModel<User> {
+
+  @Column()
   public name: string;
 
-  @Column({ type: SchemaTypes.String, lowercase: true })
+  @Column()
   public email: string;
 
-  @Column({
-    type: SchemaTypes.String,
-    default: 'pawn'
-  })
-  public role: any;
+  @Column()
+  public role: any  = 'pawn';
 
-  @Column({
-    type: SchemaTypes.String
-  })
-  // @Virtual()
-  // @Private()
-  public hashedPassword: string;
+  @Column()
+  public hashedPassword?: string;
 
+  @Column()
+  public token?: string;
 
-  @Column({
-    type: SchemaTypes.String
-  })
-  // @Virtual()
-  // @Private()
-  public salt: string;
+  @Column()
+  public salt?: string;
 
-  @Column({
-    type: SchemaTypes.ObjectId
-  })
-  public company;
+  @Column()
+  public realms? = [];
 
-  @Column({
-    type: {},
-    default: {
-      welcome: true
-    }
-  })
-  public settings;
+  @Column()
+  public settings?;
+
+  public set password(password) {
+    d('this in setter function is', this);
+      d('setting password', password);
+      this.salt = User.makeSalt();
+      d('this.salt', this.salt);
+      this.hashedPassword = User.encryptPassword(password, this.salt);
+      d('encryptedPassword', this.hashedPassword);
+      d('this is', this);
+
+  };
+
+  private static makeSalt(): string {
+    return crypto.randomBytes(16).toString('base64');
+  }
+
+  public static encryptPassword(password, salt) {
+    return crypto.createHmac('sha256', salt)
+      .update(password)
+      .digest('hex');
+  }
 
 }
+

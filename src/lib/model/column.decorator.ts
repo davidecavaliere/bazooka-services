@@ -1,39 +1,27 @@
 import { getDebugger } from '@microgamma/ts-debug';
-import { Types } from 'mongoose/lib/schema';
-import { SchemaDefinition } from 'mongoose';
 
-const d = getDebugger('microgamma:column.decorator');
+const d = getDebugger('microgamma:column:decorator');
 
 const ColumnMetadata = Symbol('Column');
 
 export interface ColumnOptions {
-  readonly type: Types;
-  readonly default?: any; // ??? what should be a good type here???
-  readonly lowercase?: boolean;
-  fieldType?: any;
+  regex?: RegExp;
 }
 
 export function Column(options?: ColumnOptions): PropertyDecorator {
 
-  d('running column decorator');
+  d('-------------------', options);
 
-  return <TFunction extends Function>(target: TFunction, propertyKey) => {
+  return <TFunction extends Function, K extends keyof TFunction>(target: TFunction, propertyKey: K) => {
 
     d('property key', propertyKey);
-    d('typeof property key', typeof propertyKey);
+    d('typeof', typeof propertyKey);
 
-    const schemaDef: SchemaDefinition = getColumnMetadata(target);
-
-    schemaDef[propertyKey] = options;
-
-    d('target is', target);
-    d('setting schema def', schemaDef);
-
-    Reflect.defineMetadata(ColumnMetadata, schemaDef, target);
+    Reflect.defineMetadata(ColumnMetadata, options, target);
   };
 }
 
-export function getColumnMetadata(instance): SchemaDefinition {
+export function getColumnMetadata(instance): ColumnOptions {
   const metadata = Reflect.getMetadata(ColumnMetadata, instance);
   return metadata || {};
 }

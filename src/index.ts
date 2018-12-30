@@ -1,4 +1,10 @@
-import { boostrap } from '@microgamma/apigator';
+import { bootstrap, Service, Inject } from '@microgamma/apigator';
 import { UserService } from './users/user.service';
 
-export = boostrap(UserService, '');
+export = bootstrap(UserService);
+
+class MyService extends Service {
+
+  @Inject(UserService)
+  public userService: UserService;
+}

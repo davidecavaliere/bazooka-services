@@ -1,5 +1,5 @@
-import { boostrap } from '@microgamma/apigator';
+import { bootstrap } from '@microgamma/apigator';
 import { UserService } from './users/user.service';
 
 
-export = boostrap(UserService, '');
+export = bootstrap(UserService);
