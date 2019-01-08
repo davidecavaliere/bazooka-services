@@ -10,7 +10,7 @@ export interface PersistenceServiceOptions {
   uri: string;
   dbName: string;
   options?: MongoClientOptions;
-  model: any
+  model: any;
 }
 
 export function Persistence(options: PersistenceServiceOptions): ClassDecorator {

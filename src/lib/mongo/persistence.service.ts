@@ -2,6 +2,7 @@ import { Collection, connect, MongoClient, MongoClientOptions } from 'mongodb';
 import { getPersistenceMetadata } from '../di/persistence.decorator';
 import { getDebugger } from '@microgamma/ts-debug';
 import { ObjectID } from 'bson';
+import { Model } from '../model/model';
 
 const d = getDebugger('microgamma:persistence.service');
 
@@ -10,7 +11,7 @@ interface MongoQuery {
   [k: string]: string;
 }
 
-export abstract class PersistenceService<T> {
+export abstract class PersistenceService<T extends Model> {
 
   protected uri: string;
   protected options: MongoClientOptions;
@@ -52,22 +53,29 @@ export abstract class PersistenceService<T> {
 
 
   public async findAll(query?: MongoQuery) {
-    return (await this.getCollection()).find(query).toArray();
+    // TODO hide not public fields in model
+    const docs = await (await this.getCollection()).find(query).toArray();
+    const parsedDocs = [];
+    for (let doc of docs) {
+      parsedDocs.push(this.modelFactory(doc).toJson());
+    }
+
+    return parsedDocs;
   }
 
   public async findOne(id: string) {
-    try {
-      d('searching document by id', id);
-      const objId = new ObjectID(id);
-      const doc = await (await this.getCollection()).findOne({_id: objId});
-      d('found document', doc);
-      if (!doc) {
-        throw new Error('[404] document not found');
-      } else {
-        return doc;
-      }
-    } catch (e) {
-      throw e;
+    d(`searching document by id ${id}`);
+    const objId = new ObjectID(id);
+
+    // TODO hide not public fields in model
+
+    const doc = await (await this.getCollection()).findOne({_id: objId});
+
+    d('found document', doc);
+    if (!doc) {
+      throw new Error('[404] document not found');
+    } else {
+      return this.modelFactory(doc).toJson();
     }
   }
 

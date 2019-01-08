@@ -1,11 +1,11 @@
 // tslint:disable:no-expression-statement no-object-mutation
 import test from 'ava';
-import { BaseModel } from './model';
+import { Model } from './model';
 import { getDebugger } from '@microgamma/ts-debug';
 
 const d = getDebugger('microgamma:model:spec');
 
-class MyModel extends BaseModel<MyModel> {
+class MyModel extends Model {
 
   public name: string;
 
@@ -19,14 +19,11 @@ test.beforeEach(() => {
   })
 });
 
-test.skip('BaseModel', t => {
+test.skip('Model', t => {
 
 
   t.deepEqual(instance, {
     name: 'my-name'
   });
 
-});
-
-test('should store some metadata', t => {
 });

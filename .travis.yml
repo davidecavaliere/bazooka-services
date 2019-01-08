@@ -1,17 +1,12 @@
+sudo: false
 language: node_js
 node_js:
-  - '8'
-script:
-  - npm i -G yarn
-  - yarn build
-  - yarn test
-  - yarn sls deploy --stage dev
-#after_script:
-#  - 'cat coverage/lcov.info | ./node_modules/.bin/coveralls' # sends the coverage report to coveralls
-deploy:
-#  provider: npm
-#  email: cavaliere.davide@gmail.com
-#  api_key: $NPM_TOKEN
-#  on:
-#    tags: true
-
+  - 8
+  - 9
+# keep the npm cache to speed up installs
+cache:
+  directories:
+  - "$HOME/.npm"
+after_success:
+  - npx nyc report --reporter=lcov | npx codecov
+  - npm run cov:check

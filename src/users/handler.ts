@@ -1,5 +1,5 @@
 import { bootstrap } from '@microgamma/apigator';
-import { UserService } from './users/user.service';
+import { UserService } from './user.service';
 
 
 export = bootstrap(UserService);

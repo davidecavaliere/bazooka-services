@@ -1,12 +1,12 @@
 import { Column } from '../lib/model/column.decorator';
-import { BaseModel } from '../lib/model/model';
 import { getDebugger } from '@microgamma/ts-debug';
 import crypto = require('crypto');
+import { Model } from '../lib/model/model';
 
 const d = getDebugger('microgamma:user.model');
 
 
-export class User extends BaseModel<User> {
+export class User extends Model {
 
   @Column()
   public name: string;
@@ -17,13 +17,17 @@ export class User extends BaseModel<User> {
   @Column()
   public role: any  = 'pawn';
 
-  @Column()
+  @Column({
+    private: true
+  })
   public hashedPassword?: string;
 
   @Column()
   public token?: string;
 
-  @Column()
+  @Column({
+    private: true
+  })
   public salt?: string;
 
   @Column()

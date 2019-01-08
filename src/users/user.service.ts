@@ -9,7 +9,8 @@ const d = getDebugger('microgamma:service:user');
 @Endpoint({
   name: 'UserEndpoint',
   private: true,
-  cors: true
+  cors: true,
+  basePath: '/users'
 })
 @Injectable()
 export class UserService {
@@ -85,7 +86,7 @@ export class UserService {
     const decoded = verify(token, process.env['SECRET']);
     d('decoded token', decoded);
 
-    return true;
+    return decoded['_id'];
   }
 
 }

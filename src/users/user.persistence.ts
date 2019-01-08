@@ -8,7 +8,7 @@ import { Injectable } from '@microgamma/apigator/build/main/lib/di/injectable.de
 const d = getDebugger('microgamma:user.persistence.service');
 
 @Persistence({
-  uri: process.env['MONGODB_ATLAS_CLUSTER_URI'],
+  uri: process.env['MONGODB_ATLAS_CLUSTER_URI'] || 'mongodb://192.168.254.2:27017/test',
   dbName: 'test',
   collection: 'users',
   model: User

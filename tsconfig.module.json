@@ -4,8 +4,5 @@
     "target": "es2017",
     "outDir": "build/module",
     "module": "commonjs"
-  },
-  "exclude": [
-    "node_modules/**"
-  ]
+  }
 }

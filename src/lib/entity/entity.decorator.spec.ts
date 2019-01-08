@@ -38,7 +38,10 @@ test.beforeEach(() => {
 test('entity decorator', t => {
   t.is(instance instanceof TestClass, true);
 
-  t.deepEqual(getColumnMetadata(instance), { });
+  t.deepEqual(getColumnMetadata(instance), {
+    name: undefined,
+    email: undefined
+  });
 });
 
 

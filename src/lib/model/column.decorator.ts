@@ -2,26 +2,51 @@ import { getDebugger } from '@microgamma/ts-debug';
 
 const d = getDebugger('microgamma:column:decorator');
 
-const ColumnMetadata = Symbol('Column');
+export const ColumnMetadata = Symbol('Column');
 
 export interface ColumnOptions {
   regex?: RegExp;
+  /**
+   * if set to true the field will not be returned when .toJson the Model
+   */
+  private: boolean;
 }
 
 export function Column(options?: ColumnOptions): PropertyDecorator {
 
-  d('-------------------', options);
+  return <TFunction extends Function>(target: TFunction, propertyKey: string) => {
 
-  return <TFunction extends Function, K extends keyof TFunction>(target: TFunction, propertyKey: K) => {
+    Object.defineProperty(target, propertyKey, {
+      get: function() {
+        // d('getting through getter');
+        return this['_' + propertyKey];
+      },
+      set: function(value) {
+        // d('setting through setter');
+        
+        // if (value) {
+        //   throw Error('@Column: invalid value.');
+        // }
+        
+        this['_' + propertyKey] = value;
+      },
+      enumerable: true,
+      configurable: true
+    });
+
 
     d('property key', propertyKey);
     d('typeof', typeof propertyKey);
 
-    Reflect.defineMetadata(ColumnMetadata, options, target);
+    const columns = getColumnMetadata(target);
+
+    columns[propertyKey] = options;
+
+    Reflect.defineMetadata(ColumnMetadata, columns, target);
   };
 }
 
-export function getColumnMetadata(instance): ColumnOptions {
+export function getColumnMetadata(instance): { [k: string]: {} } {
   const metadata = Reflect.getMetadata(ColumnMetadata, instance);
   return metadata || {};
 }

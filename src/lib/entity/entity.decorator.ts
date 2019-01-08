@@ -11,14 +11,8 @@ export interface EntityOptions {
 }
 
 export function Entity(options: EntityOptions): ClassDecorator {
-  d('decorating with', options);
 
   return <TFunction extends Function>(target: TFunction) => {
-    d('decorating', target.constructor.name);
-
-
-    d(target.constructor.toString());
-
 
     return Reflect.metadata(EntityMetadata, options)(target);
 

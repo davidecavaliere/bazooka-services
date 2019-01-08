@@ -55,8 +55,8 @@
     "node": ">=8.9"
   },
   "dependencies": {
-    "@microgamma/apigator": "^1.9.0",
-    "@microgamma/serverless-apigator": "^1.4.4",
+    "@microgamma/apigator": "^1.9.21",
+    "@microgamma/serverless-apigator": "^1.4.32",
     "@microgamma/ts-debug": "^0.3.1",
     "@types/aws-lambda": "^8.10.11",
     "@types/jsonwebtoken": "^7.2.8",

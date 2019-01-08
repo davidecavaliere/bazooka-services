@@ -1,7 +1,6 @@
 // tslint:disable:no-expression-statement no-object-mutation
 import test from 'ava';
-import { getModelMetadata, Model, ModelOptions } from './model.decorator';
-import { Log, setNamespace } from '@microgamma/ts-debug/build/main/lib/log.decorator';
+import { Model, ModelOptions } from './model.decorator';
 
 const options: ModelOptions = {
   name: 'modelFactory-name'
