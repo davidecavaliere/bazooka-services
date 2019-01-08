@@ -71,29 +71,3 @@ resources:
         Ref: ApiGatewayResourceUsers
       Export:
         Name: users-ApiGatewayResourceUsers
-
-
-#
-##
-##plugins:
-##  localPath: 'node_modules/@microgamma'
-##  modules:
-##    - serverless-apigator
-##    - serverless-offline
-##
-##
-##custom:
-##  entrypoint: build/main/handler
-##
-### you can overwrite defaults here
-##  stage: dev
-##  region: eu-west-2
-#
-## you can add packaging information here
-#package:
-#  exclude:
-#    - .github/**
-#    - src/**
-#    - .idea/**
-#    - tsconfig.*
-#    - .nyc_output/**
