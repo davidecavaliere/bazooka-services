@@ -1,7 +1,8 @@
-import { Endpoint, Lambda, Authorizer, Injectable, Inject } from '@microgamma/apigator';
+import { Authorizer, Endpoint, Inject, Injectable, Lambda } from '@microgamma/apigator';
 import { getDebugger } from '@microgamma/ts-debug';
 import { verify } from 'jsonwebtoken';
 import { GroupPersistence } from './group.persistence';
+import { GroupModel } from './group.model';
 
 const d = getDebugger('microgamma:service:groups');
 
@@ -12,49 +13,6 @@ const d = getDebugger('microgamma:service:groups');
 })
 @Injectable()
 export class GroupService {
-
-  // static instances = 0;
-  //
-  // private user;
-  //
-  //
-  // constructor() {
-  //   GroupService.instances += 1;
-  //   console.log('=====================================');
-  //   console.log(`++++ ${GroupService.instances}    ++++`);
-  //   console.log('=====================================');
-  // }
-
-  //
-  // @Lambda({
-  //   name: 'findAll',
-  //   path: '/',
-  //   method: 'GET',
-  //   authorizer: 'authorize'
-  // })
-  // public async findAll(context, event, principalId, requestContext) {
-  //   console.log('logged in user is', principalId);
-  //   // return this.persistence.findAll();
-  //
-  //   console.log('event is', event);
-  //   console.log('context', context);
-  //   console.log('requestContext', requestContext);
-  //   return [{hello: principalId}]
-  //
-  // }
-  //
-  // @Authorizer()
-  // public async authorize(token, resource) {
-  //   this.user = 'bobby';
-  //   d('got token', token);
-  //   d('got resource', resource);
-  //   const decoded = verify(token, process.env['SECRET']);
-  //   console.log('decoded token', decoded);
-  //   // this.user = decoded;
-  //   return decoded['email'];
-  // }
-
-
 
   @Inject(GroupPersistence)
   private persistence: GroupPersistence;
@@ -86,9 +44,11 @@ export class GroupService {
     method: 'POST',
     authorizer: 'authorize'
   })
-  public async create(body, event) {
+  public async create(body: GroupModel, principalId) {
     d('saving Group', body);
-    d('event is', event);
+
+    body.owner = principalId;
+
     return this.persistence.create(body);
   }
 
@@ -120,7 +80,7 @@ export class GroupService {
     d('got resource', resource);
     const decoded = verify(token, process.env['SECRET']);
     console.log('decoded token', decoded);
-    return true;
+    return decoded['_id'];
   }
 
 }

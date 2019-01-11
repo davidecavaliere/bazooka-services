@@ -53,9 +53,10 @@ export abstract class PersistenceService<T extends Model> {
 
 
   public async findAll(query?: MongoQuery) {
-    // TODO hide not public fields in model
     const docs = await (await this.getCollection()).find(query).toArray();
+
     const parsedDocs = [];
+
     for (let doc of docs) {
       parsedDocs.push(this.modelFactory(doc).toJson());
     }

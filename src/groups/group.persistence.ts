@@ -14,4 +14,10 @@ const d = getDebugger('microgamma:group.persistence.service');
 })
 @Injectable()
 export class GroupPersistence extends PersistenceService<GroupModel> {
+
+  public async createGrooup(doc, owner) {
+    // check is owner is valid
+
+    (await this.getCollection())
+  }
 }
