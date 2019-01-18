@@ -22,8 +22,8 @@ provider:
   runtime: nodejs8.10
   stage: dev
   region: eu-west-2
-  apiKeys:
-  - microgamma-apiKey
+#  apiKeys:
+#  - microgamma-apiKey
   environment:
     MONGODB_ATLAS_CLUSTER_URI: ${env:MONGODB_ATLAS_CLUSTER_URI, 'mongodb://192.168.254.2:27017/test'}
     DEBUG: ${env:DEBUG, ''}
@@ -51,31 +51,15 @@ custom:
   stage: dev
   region: eu-west-2
 
-# you can add packaging information here
-#package:
-#  path: /home/developer/src/services/groups/.serverless
-#  exclude:
-#  - ./**
-#  - ../../build/**/*.spec.js
-#  - ../../build/**/*.spec.d.ts
-#  include:
-#  - build/main/groups/**
-#  - ../../node_modules/**
 
 package:
   exclude:
-    - .github/**
-    - src/**
-    - .idea/**
-    - tsconfig.*
-    - .nyc_output/**
-    - build/**/*.spec.js
-    - build/**/*.spec.d.ts
-    - tslint.json
-    - yarn*
-    - package.json
-    - .npmignore
-    - prettierignore
-    - .travis.yml
-    - .yarnclean
-    - LICENSE
+    ${file(../excludes.yml)}
+
+resources:
+  Resources:
+
+    ApiKey:
+      Type: AWS::ApiGateway::ApiKey
+      Properties:
+        name:  Fn:ImportValue: 'public-api-key'

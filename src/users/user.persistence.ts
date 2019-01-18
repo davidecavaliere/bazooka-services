@@ -1,9 +1,8 @@
-import { Persistence } from '../lib/di/persistence.decorator';
-import { PersistenceService } from '../lib/mongo/persistence.service';
 import { User } from './user.model';
-import { getDebugger } from '@microgamma/ts-debug';
 import { sign } from 'jsonwebtoken';
-import { Injectable } from '@microgamma/apigator/build/main/lib/di/injectable.decorator';
+import { getDebugger } from '@microgamma/loggator';
+import { Persistence, PersistenceService } from '@microgamma/datagator';
+import { Injectable } from '@microgamma/apigator';
 
 const d = getDebugger('microgamma:user.persistence.service');
 

@@ -1,11 +1,6 @@
-import { Column } from '../lib/model/column.decorator';
-import { Model } from '../lib/model/model';
-import { getDebugger } from '@microgamma/ts-debug';
+import { BaseModel, Column } from '@microgamma/datagator';
 
-const d = getDebugger('microgamma:group.model');
-
-
-export class GroupModel extends Model {
+export class GroupModel extends BaseModel {
 
   @Column()
   public _id: string;

@@ -1,10 +1,7 @@
-import { Persistence } from '../lib/di/persistence.decorator';
-import { PersistenceService } from '../lib/mongo/persistence.service';
-import { getDebugger } from '@microgamma/ts-debug';
 import { Injectable } from '@microgamma/apigator';
 import { GroupModel } from './group.model';
+import { Persistence, PersistenceService } from '@microgamma/datagator';
 
-const d = getDebugger('microgamma:group.persistence.service');
 
 @Persistence({
   uri: process.env['MONGODB_ATLAS_CLUSTER_URI'] || 'mongodb://192.168.254.2:27017/test',
@@ -15,9 +12,21 @@ const d = getDebugger('microgamma:group.persistence.service');
 @Injectable()
 export class GroupPersistence extends PersistenceService<GroupModel> {
 
-  public async createGrooup(doc, owner) {
-    // check is owner is valid
+  public async create(doc) {
+    // TODO check existence of owner and users
+    return super.create(doc);
+  }
 
-    (await this.getCollection())
+  public async findAll() {
+    // TODO check existence of owner and users
+    return super.findAll();
+  }
+
+  public async findByOwner(ownerId) {
+    return super.findAll({owner: ownerId});
+  }
+
+  public async findByMember(userId) {
+    return super.findAll({users: userId});
   }
 }

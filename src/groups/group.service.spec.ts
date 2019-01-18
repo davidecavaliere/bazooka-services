@@ -1,7 +1,7 @@
 // tslint:disable:no-expression-statement no-object-mutation
 import test from 'ava';
-import { getDebugger } from '@microgamma/ts-debug';
 import { GroupService } from './group.service';
+import { getDebugger } from '@microgamma/loggator';
 
 const d = getDebugger('microgamma:group.service.spec');
 

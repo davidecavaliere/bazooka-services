@@ -1,9 +1,9 @@
 import { Endpoint, Lambda, Authorizer, Injectable, Inject } from '@microgamma/apigator';
-import { getDebugger } from '@microgamma/ts-debug';
 import { UserPersistenceService } from './user.persistence';
 import { verify } from 'jsonwebtoken';
+import { getDebugger } from '@microgamma/loggator';
 
-const d = getDebugger('microgamma:service:user');
+const d = getDebugger('microgamma:user.service');
 
 
 @Endpoint({

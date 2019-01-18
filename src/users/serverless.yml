@@ -22,8 +22,8 @@ provider:
   runtime: nodejs8.10
   stage: dev
   region: eu-west-2
-  apiKeys:
-  - microgamma-apiKey
+#  apiKeys:
+#  - microgamma-apiKey
   environment:
     MONGODB_ATLAS_CLUSTER_URI: ${env:MONGODB_ATLAS_CLUSTER_URI, 'mongodb://192.168.254.2:27017/test'}
     DEBUG: ${env:DEBUG, ''}
@@ -33,8 +33,6 @@ provider:
       Fn::ImportValue: 'apiGateway-restApiId'
     restApiRootResourceId:
       Fn::ImportValue: 'apiGateway-rootResourceId'
-    restApiResources:
-      users: { 'Fn::ImportValue': 'users-ApiGatewayResourceUsers' }
 
 plugins:
   localPath: '../../node_modules/@microgamma'
@@ -46,22 +44,14 @@ plugins:
 custom:
   entrypoint: ../../build/main/users/handler
   buildFolder: /home/developer/src/services/build/main/users
+  serviceDefinition: ../build/main/users
   npmModulePath: /home/developer/src/services
 
 # you can overwrite defaults here
   stage: dev
   region: eu-west-2
 
-# you can add packaging information here
-#package:
-#  path: /home/developer/src/services/users/.serverless
-#  exclude:
-#  - ./**
-#  - ../../build/**/*.spec.js
-#  - ../../build/**/*.spec.d.ts
-#  include:
-#  - build/main/users/**
-#  - ../../node_modules/**
+
 
 package:
   exclude:

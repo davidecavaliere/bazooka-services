@@ -1,12 +1,14 @@
-import { Column } from '../lib/model/column.decorator';
-import { getDebugger } from '@microgamma/ts-debug';
 import crypto = require('crypto');
-import { Model } from '../lib/model/model';
+import { BaseModel, Column } from '@microgamma/datagator';
+import { getDebugger } from '@microgamma/loggator';
 
 const d = getDebugger('microgamma:user.model');
 
 
-export class User extends Model {
+export class User extends BaseModel {
+
+  @Column()
+  public _id: string;
 
   @Column()
   public name: string;
