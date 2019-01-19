@@ -4,7 +4,7 @@
     "moduleResolution": "node",
     "module": "commonjs",
     "declaration": true,
-    "noLib": true,
+    "noLib": false,
 
     "composite": true,
     "sourceMap": true,
@@ -21,8 +21,8 @@
     // "alwaysStrict": true /* Parse in strict mode and emit "use strict" for each source file. */,
 
     /* Additional Checks */
-//    "noUnusedLocals": true /* Report errors on unused locals. */,
-//    "noUnusedParameters": true /* Report errors on unused parameters. */,
+    "noUnusedLocals": false /* Report errors on unused locals. */,
+    "noUnusedParameters": false /* Report errors on unused parameters. */,
     "noImplicitReturns": true /* Report error when not all code paths in function return a value. */,
     "noFallthroughCasesInSwitch": true /* Report errors for fallthrough cases in switch statement. */,
 
@@ -33,17 +33,16 @@
     "pretty": true /* Stylize errors and messages using color and context. */,
 
     /* Experimental Options */
-     "experimentalDecorators": true /* Enables experimental support for ES7 decorators. */,
-     "emitDecoratorMetadata": true /* Enables experimental support for emitting type metadata for decorators. */,
+    "experimentalDecorators": true /* Enables experimental support for ES7 decorators. */,
+    "emitDecoratorMetadata": true /* Enables experimental support for emitting type metadata for decorators. */,
 
-    "types": ["node"],
-    "typeRoots": [
-      "node_modules/@types"
-    ],
-    "baseUrl": "./packages",
+    "lib": ["es2017"],
+    "types": ["node", "jest"],
+    "typeRoots": ["node_modules/@types"],
+    "baseUrl": "packages",
     "paths": {
       "@bazooka/*": ["./*/src"]
     }
   },
-  "exclude": ["node_modules/**"]
+  "exclude": ["node_modules"]
 }
