@@ -1,0 +1,79 @@
+{
+  "name": "@bazooka/users",
+  "version": "1.10.5",
+  "private": true,
+  "description": "run your api code everywhere",
+  "main": "index.js",
+  "typings": "index.d.ts",
+  "module": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "files": [
+    "lib"
+  ],
+  "license": "MIT",
+  "keywords": [],
+  "scripts": {
+    "prebuild": "run-s clean",
+    "build": "tsc -p tsconfig.json",
+    "test": "run-s test:*",
+    "test:unit": "nyc --silent ava",
+    "test:lint": "tslint --project . ",
+    "test:unit:debug": "node --inspect  nyc --silent ava",
+    "watch": "run-s clean build && run-p \"build -- -w\" \"test:unit -- --watch\"",
+    "watch:debug": "run-s clean build:main && run-p \"build:main -- -w\" \"test:unit:debug -- --watch\"",
+    "cov": "run-s build test:unit cov:html && opn coverage/index.html",
+    "cov:html": "nyc report --reporter=html",
+    "cov:send": "nyc report --reporter=lcov > coverage.lcov && codecov",
+    "cov:check": "nyc report && nyc check-coverage --lines 100 --functions 100 --branches 100",
+    "doc": "run-s doc:html && opn build/docs/index.html",
+    "doc:html": "typedoc src/ --target ES6 --mode file --out build/docs",
+    "doc:json": "typedoc src/ --target ES6 --mode file --json build/docs/typedoc.json",
+    "doc:publish": "gh-pages -m \"[ci skip] Updates\" -d build/docs",
+    "clean": "trash lib",
+    "prepare-release": "run-s all version doc:publish"
+  },
+  "ava": {
+    "files": [
+      "./lib/**/*.spec.js"
+    ],
+    "compileEnhanments": false,
+    "extensions": [
+      "ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  },
+  "nyc": {
+    "exclude": [
+      "**/*.spec.js"
+    ]
+  },
+  "jest": {
+    "roots": [
+      "<rootDir>/src"
+    ],
+    "transform": {
+      "^.+\\.ts?$": "ts-jest"
+    },
+    "testRegex": "(/__tests__/.*|(\\.|/)(test))\\.ts?$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ],
+    "reporters": [
+      "default"
+    ]
+  }
+}
