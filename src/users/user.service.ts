@@ -8,7 +8,6 @@ const d = getDebugger('microgamma:user.service');
 
 @Endpoint({
   name: 'UserEndpoint',
-  private: true,
   cors: true,
   basePath: '/users'
 })

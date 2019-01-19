@@ -9,13 +9,8 @@
   "license": "MIT",
   "keywords": [],
   "scripts": {
-    "info": "npm-scripts-info",
-    "build": "run-s clean && run-p build:*",
-    "build:main": "tsc -p tsconfig.json",
-    "build:module": "tsc -p tsconfig.module.json",
-    "fix": "run-s fix:*",
-    "fix:prettier": "prettier \"src/**/*.ts\" --write",
-    "fix:tslint": "tslint --fix --project .",
+    "prebuild": "run-s clean",
+    "build": "tsc -p tsconfig.json",
     "test": "run-s build test:*",
     "test:lint": "tslint --project . && prettier \"src/**/*.ts\" --list-different",
     "test:unit": "nyc --silent ava",
@@ -29,7 +24,6 @@
     "doc:json": "typedoc src/ --target ES6 --mode file --json build/docs/typedoc.json",
     "doc:publish": "gh-pages -m \"[ci skip] Updates\" -d build/docs",
     "version": "standard-version",
-    "reset": "git clean -dfx && git reset --hard && npm i",
     "clean": "trash build test",
     "all": "run-s reset test cov:check doc:html",
     "prepare-release": "run-s all version doc:publish",
@@ -38,34 +32,20 @@
     "watch:sls:offline": "run-s clean build:main && run-p \"build:main -- -w\" \"sls:offline\"",
     "sls:deploy:dev": "yarn build && DEBUG=microgamma:* MONGODB_ATLAS_CLUSTER_URI='mongodb://lambdauser:71HLFBmfB7srpA7T@cluster0-shard-00-00-rqrkt.mongodb.net:27017,cluster0-shard-00-01-rqrkt.mongodb.net:27017,cluster0-shard-00-02-rqrkt.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true' sls deploy --stage dev"
   },
-  "scripts-info": {
-    "info": "Display information about the package scripts",
-    "build": "Clean and rebuild the project",
-    "fix": "Try to automatically fix any linting problems",
-    "test": "Lint and unit test the project",
-    "watch": "Watch and rebuild the project on save, then rerun relevant tests",
-    "cov": "Rebuild, run tests, then create and open the coverage report",
-    "doc": "Generate HTML API documentation and open it in a browser",
-    "doc:json": "Generate API documentation in typedoc JSON format",
-    "version": "Bump package.json version, update CHANGELOG.md, tag release",
-    "reset": "Delete all untracked files and reset the repo to the last commit",
-    "prepare-release": "One-step: clean, build, test, publish docs, and prep a release"
-  },
   "engines": {
     "node": ">=8.9"
   },
   "dependencies": {
-    "@microgamma/apigator": "^1.10.1",
-    "@microgamma/datagator": "^1.10.2",
-    "@microgamma/loggator": "^0.3.1",
-    "@microgamma/serverless-apigator": "^1.10.1",
-    "@types/aws-lambda": "^8.10.11",
-    "@types/jsonwebtoken": "^7.2.8",
+    "@microgamma/apigator": "^1.10.5",
+    "@microgamma/datagator": "^1.10.3",
+    "@microgamma/loggator": "^1.10.3",
+    "@microgamma/serverless-apigator": "^1.10.5",
     "jsonwebtoken": "^8.3.0",
-    "mongodb": "^3.1.4",
-    "serverless-domain-manager": "^2.6.11"
+    "mongodb": "^3.1.4"
   },
   "devDependencies": {
+    "@types/aws-lambda": "^8.10.11",
+    "@types/jsonwebtoken": "^7.2.8",
     "ava": "^1.0.0-beta.5.1",
     "body-parser": "^1.18.3",
     "chakram": "^1.5.0",
@@ -82,6 +62,7 @@
     "prettier": "^1.13.4",
     "reflect-metadata": "^0.1.12",
     "serverless": "^1.30.1",
+    "serverless-domain-manager": "^2.6.11",
     "serverless-localstack": "^0.3.1",
     "serverless-offline": "^3.25.9",
     "standard-version": "^4.4.0",

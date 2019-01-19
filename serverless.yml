@@ -34,36 +34,36 @@ resources:
         Description: "CloudFormation API Key V1"
         Enabled: "true"
 
-    PublicUsagePlan:
-      Type: "AWS::ApiGateway::UsagePlan"
-      DependsOn: ApiGatewayRestApi
-      Properties:
-        UsagePlanName: ${self:service}-${self:provider.stage}-usagePlan
-        Quota:
-          Limit: 10000
-          Offset: 0
-          Period: DAY
-        Throttle:
-          BurstLimit: 20
-          RateLimit: 10
-        ApiStages:
-          -
-            ApiId:
-              Ref: ApiGatewayRestApi
-            Stage: ${self:provider.stage}
-
-    PublicUsagePlanKey:
-      Type: "AWS::ApiGateway::UsagePlanKey"
-      DependsOn: PublicUsagePlan
-      Properties:
-        ApiStages:
-          -
-            ApiId: !Ref 'ApiGatewayApi'
-            Stage: !Ref' 'DeploymentEnvironment'
-        KeyId: 'public-usage-plan-key'
-        KeyType: API_KEY
-        UsagePlanId:
-          Ref: PublicUsagePlan
+#    PublicUsagePlan:
+#      Type: "AWS::ApiGateway::UsagePlan"
+#      DependsOn: ApiGatewayRestApi
+#      Properties:
+#        UsagePlanName: ${self:service}-${self:provider.stage}-usagePlan
+#        Quota:
+#          Limit: 10000
+#          Offset: 0
+#          Period: DAY
+#        Throttle:
+#          BurstLimit: 20
+#          RateLimit: 10
+#        ApiStages:
+#          -
+#            ApiId:
+#              Ref: ApiGatewayRestApi
+#            Stage: ${self:provider.stage}
+#
+#    PublicUsagePlanKey:
+#      Type: "AWS::ApiGateway::UsagePlanKey"
+#      DependsOn: PublicUsagePlan
+#      Properties:
+#        ApiStages:
+#          -
+#            ApiId: { Ref:  'ApiGatewayRestApi' }
+#            Stage: ${self:provider.stage}
+#        KeyId: 'public-usage-plan-key'
+#        KeyType: API_KEY
+#        UsagePlanId:
+#          Ref: PublicUsagePlan
         
   Outputs:
     apiGatewayRestApiId:

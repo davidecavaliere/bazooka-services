@@ -9,7 +9,6 @@ const d = getDebugger('microgamma:service:groups');
 @Endpoint({
   name: 'GroupEndpoint',
   basePath: 'groups',
-  private: true,
   cors: true
 })
 @Injectable()

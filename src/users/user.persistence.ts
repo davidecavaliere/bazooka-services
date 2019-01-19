@@ -29,9 +29,9 @@ export class UserPersistenceService extends PersistenceService<User> {
 
       user.token = sign(user, process.env['SECRET']);
 
-      return user;
+      return new User(user).toJson();
     } else {
-      throw new Error('[403] Unable to authenticate user');
+      throw new Error('[403] Unable to authenticate');
     }
 
   }

@@ -52,7 +52,6 @@ custom:
   region: eu-west-2
 
 
-
 package:
   exclude:
     ${file(../excludes.yml)}

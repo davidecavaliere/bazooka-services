@@ -55,11 +55,3 @@ custom:
 package:
   exclude:
     ${file(../excludes.yml)}
-
-resources:
-  Resources:
-
-    ApiKey:
-      Type: AWS::ApiGateway::ApiKey
-      Properties:
-        name:  Fn:ImportValue: 'public-api-key'
