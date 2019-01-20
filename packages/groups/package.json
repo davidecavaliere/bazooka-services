@@ -19,8 +19,8 @@
     "build": "tsc -p tsconfig.json",
     "test": "run-s test:*",
     "test:unit": "nyc --silent ava",
-    "test:lint": "tslint --project . ",
     "test:unit:debug": "node --inspect  nyc --silent ava",
+
     "watch": "run-s clean build && run-p \"build -- -w\" \"test:unit -- --watch\"",
     "watch:debug": "run-s clean build:main && run-p \"build:main -- -w\" \"test:unit:debug -- --watch\"",
     "cov": "run-s build test:unit cov:html && opn coverage/index.html",
@@ -80,5 +80,8 @@
     "@microgamma/apigator": "^1.10.5",
     "@microgamma/datagator": "^1.10.3",
     "@microgamma/loggator": "^1.10.3"
+  },
+  "devDependencies": {
+    "ava": "^1.1.0"
   }
 }

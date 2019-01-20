@@ -1,5 +1,5 @@
-
 const chakram = require('chakram');
+// @ts-ignore
 const expect = chakram.expect;
 
 describe('user.service', function() {

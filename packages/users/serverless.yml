@@ -35,17 +35,14 @@ provider:
       Fn::ImportValue: 'apiGateway-rootResourceId'
 
 plugins:
-  localPath: '../../node_modules/@microgamma'
-  modules:
-    - serverless-apigator
-    - serverless-offline
+  - '@microgamma/serverless-apigator'
+  - serverless-offline
 
 
 custom:
-  entrypoint: ../../build/main/users/handler
-  buildFolder: /home/developer/src/services/build/main/users
-  serviceDefinition: ../build/main/users
-  npmModulePath: /home/developer/src/services
+  entrypoint: ./lib/handler
+  buildFolder: /home/developer/src/services/packages/users/lib
+  serviceDefinition: /home/developer/src/services/packages/users/lib
 
 # you can overwrite defaults here
   stage: dev
@@ -54,4 +51,4 @@ custom:
 
 package:
   exclude:
-    ${file(../excludes.yml)}
+    ${file(../apigateway/excludes.yml)}

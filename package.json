@@ -5,17 +5,18 @@
   "description": "microgamma endpoints project",
   "license": "MIT",
   "keywords": [],
-  "workspace": [
+  "workspaces": [
     "packages/*"
   ],
   "scripts": {
+    "echo": "echo $*",
     "clean": "trash packages/*/lib",
     "prebuild": "run-s clean",
     "build": "tsc -b packages/*",
-    "test": "run-s build test:*",
-    "test:lint": "tslint --project . && prettier \"src/**/*.ts\" --list-different",
-    "test:unit": "nyc --silent ava",
-    "watch": "run-s clean build:main && run-p \"build:main -- -w\" \"test:unit -- --watch\"",
+    "build:package": "tsc -p ",
+    "pretest": "run-s build",
+    "test": "lerna run test",
+    "watch": "run-s clean build && run-p \"build -- -w\" \"test:unit -- --watch\"",
     "cov": "run-s build test:unit cov:html && opn coverage/index.html",
     "cov:html": "nyc report --reporter=html",
     "cov:send": "nyc report --reporter=lcov > coverage.lcov && codecov",
@@ -36,15 +37,15 @@
     "node": ">=8.9"
   },
   "dependencies": {
-    "@bazooka/users": "file:packages/users",
+    "@bazooka/apigateway": "file:packages/apigateway",
     "@bazooka/groups": "file:packages/groups",
-    "@bazooka/apigateway": "file:packages/apigateway"
+    "@bazooka/users": "file:packages/users"
   },
   "devDependencies": {
-    "@microgamma/serverless-apigator": "^1.10.5",
+    "@microgamma/serverless-apigator": "^1.10.6",
     "@types/jest": "^23.3.13",
     "@types/jsonwebtoken": "^7.2.8",
-    "ava": "^1.0.0-beta.5.1",
+    "ava": "^1.1.0",
     "chakram": "^1.5.0",
     "codecov": "^3.0.2",
     "cz-conventional-changelog": "^2.1.0",
