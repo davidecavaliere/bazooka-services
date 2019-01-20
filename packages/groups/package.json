@@ -6,12 +6,6 @@
   "main": "index.js",
   "typings": "index.d.ts",
   "module": "index.js",
-  "directories": {
-    "lib": "lib"
-  },
-  "files": [
-    "lib"
-  ],
   "license": "MIT",
   "keywords": [],
   "scripts": {
@@ -80,8 +74,5 @@
     "@microgamma/apigator": "^1.10.5",
     "@microgamma/datagator": "^1.10.3",
     "@microgamma/loggator": "^1.10.3"
-  },
-  "devDependencies": {
-    "ava": "^1.1.0"
   }
 }
