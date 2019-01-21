@@ -1,15 +1,10 @@
 - .github/**
 - src/**
-- .idea/**
 - tsconfig.*
 - .nyc_output/**
-- build/**/*.spec.js
-- build/**/*.spec.d.ts
 - tslint.json
 - yarn*
 - package.json
 - .npmignore
-- prettierignore
-- .travis.yml
-- .yarnclean
 - LICENSE
+- lib/**

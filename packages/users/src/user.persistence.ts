@@ -18,6 +18,7 @@ export class UserPersistenceService extends PersistenceService<User> {
   public async authenticate({email, password}) {
     const user = await (await this.getCollection()).findOne({ email: email });
     if (!user) {
+      // @ts-ignore
       throw new Error('[403] Unable to authenticate user');
     }
 
@@ -31,6 +32,7 @@ export class UserPersistenceService extends PersistenceService<User> {
 
       return new User(user).toJson();
     } else {
+      // @ts-ignore
       throw new Error('[403] Unable to authenticate');
     }
 

@@ -51,4 +51,10 @@ custom:
 
 package:
   exclude:
-    ${file(../apigateway/excludes.yml)}
+    - .nyc_output/**
+    - src/**
+    - package*.json
+    - tsconfig.json
+    - yarn*
+
+
