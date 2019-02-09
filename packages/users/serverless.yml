@@ -25,7 +25,7 @@ provider:
 #  apiKeys:
 #  - microgamma-apiKey
   environment:
-    MONGODB_ATLAS_CLUSTER_URI: ${env:MONGODB_ATLAS_CLUSTER_URI, 'mongodb://192.168.254.2:27017/test'}
+    MONGOURI: ${env:MONGODB_ATLAS_CLUSTER_URI, 'mongodb://192.168.254.2:27017/test'}
     DEBUG: ${env:DEBUG, ''}
     SECRET: ${env:SECRET, 'my-secure-secret'}
   apiGateway:
@@ -35,6 +35,7 @@ provider:
       Fn::ImportValue: 'apiGateway-rootResourceId'
 
 plugins:
+  - serverless-plugin-monorepo
   - '@microgamma/serverless-apigator'
   - serverless-offline
 
@@ -51,10 +52,5 @@ custom:
 
 package:
   exclude:
-    - .nyc_output/**
-    - src/**
-    - package*.json
-    - tsconfig.json
-    - yarn*
-
+    ${file(../excludes.yml)}
 

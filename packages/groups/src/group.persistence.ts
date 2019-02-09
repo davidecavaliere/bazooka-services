@@ -1,6 +1,6 @@
-import { Injectable } from '@microgamma/apigator';
 import { GroupModel } from './group.model';
 import { Persistence, PersistenceService } from '@microgamma/datagator';
+import { Injectable } from '@microgamma/digator';
 
 
 @Persistence({

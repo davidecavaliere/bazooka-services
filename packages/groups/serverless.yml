@@ -25,7 +25,7 @@ provider:
 #  apiKeys:
 #  - microgamma-apiKey
   environment:
-    MONGODB_ATLAS_CLUSTER_URI: ${env:MONGODB_ATLAS_CLUSTER_URI, 'mongodb://192.168.254.2:27017/test'}
+    MONGOURI: ${env:MONGODB_ATLAS_CLUSTER_URI, 'mongodb://192.168.254.2:27017/test'}
     DEBUG: ${env:DEBUG, ''}
     SECRET: ${env:SECRET, 'my-secure-secret'}
   apiGateway:
@@ -36,16 +36,16 @@ provider:
 
 
 plugins:
-  localPath: '../../node_modules/@microgamma'
-  modules:
-    - serverless-apigator
-    - serverless-offline
+  - serverless-plugin-monorepo
+  - '@microgamma/serverless-apigator'
+  - serverless-offline
+
 
 
 custom:
-  entrypoint: ../../build/main/groups/handler
-  buildFolder: /home/developer/src/services/build/main/groups
-  npmModulePath: /home/developer/src/services
+  entrypoint: ./lib/handler
+  buildFolder: /home/developer/src/services/packages/groups/lib
+  serviceDefinition: /home/developer/src/services/packages/groups/lib
 
 # you can overwrite defaults here
   stage: dev

@@ -1,8 +1,9 @@
-import { Authorizer, Endpoint, Inject, Injectable, Lambda } from '@microgamma/apigator';
+import { Authorizer, Endpoint, Lambda } from '@microgamma/apigator';
 import { verify } from 'jsonwebtoken';
 import { GroupPersistence } from './group.persistence';
 import { GroupModel } from './group.model';
 import { getDebugger } from '@microgamma/loggator';
+import { Inject, Injectable } from '@microgamma/digator';
 
 const d = getDebugger('microgamma:service:groups');
 

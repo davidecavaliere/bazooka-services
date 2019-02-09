@@ -2,12 +2,12 @@ import { User } from './user.model';
 import { sign } from 'jsonwebtoken';
 import { getDebugger } from '@microgamma/loggator';
 import { Persistence, PersistenceService } from '@microgamma/datagator';
-import { Injectable } from '@microgamma/apigator';
+import { Injectable } from '@microgamma/digator';
 
 const d = getDebugger('microgamma:user.persistence.service');
 
 @Persistence({
-  uri: process.env['MONGODB_ATLAS_CLUSTER_URI'] || 'mongodb://192.168.254.2:27017/test',
+  uri: process.env['MONGOURI'],
   dbName: 'test',
   collection: 'users',
   model: User

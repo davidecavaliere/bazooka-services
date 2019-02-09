@@ -19,6 +19,24 @@ provider:
   stage: dev
   region: eu-west-2
 
+  environment:
+    DEBUG: ${env:DEBUG, ''}
+    SECRET: ${env:SECRET, 'my-secure-secret'}
+
+plugins:
+  - serverless-plugin-monorepo
+  - '@microgamma/serverless-apigator'
+  - serverless-offline
+
+custom:
+  entrypoint: ./lib/handler
+  buildFolder: /home/developer/src/services/packages/apigateway/lib
+  serviceDefinition: /home/developer/src/services/packages/apigateway/lib
+
+package:
+  exclude:
+    ${file(./excludes.yml)}
+
 resources:
   Resources:
 
@@ -27,12 +45,41 @@ resources:
       Properties:
         Name: ApiGatewayRestApi
 
+    SharedApiGatewayAuthorizer:
+      Type: AWS::ApiGateway::Authorizer
+      Properties:
+        AuthorizerResultTtlInSeconds: 300
+        IdentitySource: method.request.header.Authorization
+        Name: jwtTokenValidator
+        AuthorizerUri:
+          Fn::Join:
+          - ''
+          - - 'arn:aws:apigateway:'
+            - Ref: "AWS::Region"
+            - ':lambda:path/2015-03-31/functions/'
+            - Fn::GetAtt: "JwtTokenValidatorLambdaFunction.Arn"
+            - "/invocations"
+        RestApiId:
+          Ref: ApiGatewayRestApi
+        Type: TOKEN
+
+    ApiGatewayAuthorizerPermission:
+      Type: AWS::Lambda::Permission
+      Properties:
+        FunctionName:
+          Fn::GetAtt: JwtTokenValidatorLambdaFunction.Arn
+        Action: lambda:InvokeFunction
+        Principal:
+          Fn::Join: ["",["apigateway.", { Ref: "AWS::URLSuffix"}]]
+
     ApiKey:
       Type: AWS::ApiGateway::ApiKey
       Properties:
         Name: "PublicApiKey"
         Description: "CloudFormation API Key V1"
         Enabled: "true"
+
+
 
 #    PublicUsagePlan:
 #      Type: "AWS::ApiGateway::UsagePlan"
@@ -80,9 +127,14 @@ resources:
       Export:
         Name: apiGateway-rootResourceId
 
+    apiGatewayAuthorizerId:
+      Value:
+        Ref: SharedApiGatewayAuthorizer
+      Export:
+        Name: apiGateway-jwtTokenvalidator
+
     publicApiKey:
       Value:
         Ref: ApiKey
       Export:
         Name: public-api-key
-

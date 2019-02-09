@@ -3,6 +3,9 @@
   "compilerOptions": {
     "outDir": "lib",
     "rootDir": "src"
-  }
-
+  },
+  "exclude": ["integration"],
+  "references": [
+    { "path": "../users" }
+  ]
 }

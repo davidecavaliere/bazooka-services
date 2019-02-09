@@ -1,3 +1,4 @@
-export = class {
+import { AuthService } from './auth.service';
 
-};
+export = AuthService;
+

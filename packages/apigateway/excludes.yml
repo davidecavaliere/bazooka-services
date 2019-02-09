@@ -1,10 +1,5 @@
-- .github/**
-- src/**
-- tsconfig.*
 - .nyc_output/**
-- tslint.json
+- src/**
+- package*.json
+- tsconfig.json
 - yarn*
-- package.json
-- .npmignore
-- LICENSE
-- lib/**
