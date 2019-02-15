@@ -26,7 +26,6 @@ export class UserPersistenceService extends PersistenceService<User> {
     d('hashed password', user.hashedPassword);
     d('hash from given password', User.encryptPassword(password, user.salt));
     if ( User.encryptPassword(password, user.salt) == user.hashedPassword) {
-      // TODO use public accessible fields in <model> to only send those through token
 
       user.token = sign(user, process.env['SECRET']);
 
