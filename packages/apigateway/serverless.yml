@@ -29,13 +29,13 @@ plugins:
   - serverless-offline
 
 custom:
-  entrypoint: ./lib/handler
+  entrypoint: lib/handler
   buildFolder: /home/developer/src/services/packages/apigateway/lib
-  serviceDefinition: /home/developer/src/services/packages/apigateway/lib
 
 package:
   exclude:
     ${file(./excludes.yml)}
+
 
 resources:
   Resources:
@@ -45,39 +45,34 @@ resources:
       Properties:
         Name: ApiGatewayRestApi
 
-    SharedApiGatewayAuthorizer:
+    # Authorizer
+    ApiGatewayAuthorizer:
       Type: AWS::ApiGateway::Authorizer
       Properties:
         AuthorizerResultTtlInSeconds: 300
-        IdentitySource: method.request.header.Authorization
-        Name: jwtTokenValidator
         AuthorizerUri:
           Fn::Join:
           - ''
-          - - 'arn:aws:apigateway:'
+          -
+            - 'arn:aws:apigateway:'
             - Ref: "AWS::Region"
             - ':lambda:path/2015-03-31/functions/'
-            - Fn::GetAtt: "JwtTokenValidatorLambdaFunction.Arn"
+            - Fn::GetAtt: "GeneralAuthorizerLambdaFunction.Arn"
             - "/invocations"
-        RestApiId:
-          Ref: ApiGatewayRestApi
+        IdentitySource: method.request.header.Authorization
+        IdentityValidationExpression: ".+"
+        RestApiId: { Ref: ApiGatewayRestApi }
         Type: TOKEN
+        Name: apigateway-authorizer
 
     ApiGatewayAuthorizerPermission:
       Type: AWS::Lambda::Permission
       Properties:
         FunctionName:
-          Fn::GetAtt: JwtTokenValidatorLambdaFunction.Arn
+          Fn::GetAtt: GeneralAuthorizerLambdaFunction.Arn
         Action: lambda:InvokeFunction
         Principal:
           Fn::Join: ["",["apigateway.", { Ref: "AWS::URLSuffix"}]]
-
-    ApiKey:
-      Type: AWS::ApiGateway::ApiKey
-      Properties:
-        Name: "PublicApiKey"
-        Description: "CloudFormation API Key V1"
-        Enabled: "true"
 
 
 
@@ -127,14 +122,10 @@ resources:
       Export:
         Name: apiGateway-rootResourceId
 
-    apiGatewayAuthorizerId:
+    # The Authorizer (only if you are using an API Gateway authorizer)
+    ApiGatewayAuthorizerId:
       Value:
-        Ref: SharedApiGatewayAuthorizer
+        Ref: ApiGatewayAuthorizer
       Export:
-        Name: apiGateway-jwtTokenvalidator
+        Name: apigateway-ApiGatewayAuthorizerId
 
-    publicApiKey:
-      Value:
-        Ref: ApiKey
-      Export:
-        Name: public-api-key

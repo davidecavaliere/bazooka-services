@@ -45,7 +45,6 @@ plugins:
 custom:
   entrypoint: ./lib/handler
   buildFolder: /home/developer/src/services/packages/groups/lib
-  serviceDefinition: /home/developer/src/services/packages/groups/lib
 
 # you can overwrite defaults here
   stage: dev
@@ -54,4 +53,4 @@ custom:
 
 package:
   exclude:
-    ${file(../excludes.yml)}
+    ${file(../apigateway/iexcludes.yml)}

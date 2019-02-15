@@ -40,13 +40,13 @@
     "@bazooka/apigateway": "file:packages/apigateway",
     "@bazooka/groups": "file:packages/groups",
     "@bazooka/users": "file:packages/users",
-    "@microgamma/apigator": "^1.10.10",
+    "@microgamma/apigator": "^1.10.11",
     "@microgamma/datagator": "^1.10.9",
     "@microgamma/digator": "^1.10.10",
     "@microgamma/loggator": "^1.10.3"
   },
   "devDependencies": {
-    "@microgamma/serverless-apigator": "^1.10.10",
+    "@microgamma/serverless-apigator": "^1.10.12",
     "@types/jest": "^23.3.13",
     "@types/jsonwebtoken": "^7.2.8",
     "ava": "^1.1.0",

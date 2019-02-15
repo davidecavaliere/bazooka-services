@@ -20,7 +20,6 @@
     "test": "run-s test:*",
     "test:unit": "nyc --silent ava",
     "test:unit:debug": "node --inspect  nyc --silent ava",
-
     "watch": "run-s clean build && run-p \"build -- -w\" \"test:unit -- --watch\"",
     "watch:debug": "run-s clean build:main && run-p \"build:main -- -w\" \"test:unit:debug -- --watch\"",
     "cov": "run-s build test:unit cov:html && opn coverage/index.html",
@@ -33,7 +32,6 @@
     "doc:publish": "gh-pages -m \"[ci skip] Updates\" -d build/docs",
     "clean": "trash lib",
     "prepare-release": "run-s all version doc:publish",
-
     "sls": "sls"
   },
   "ava": {
@@ -81,9 +79,8 @@
   "dependencies": {
     "@microgamma/apigator": "^1.10.5",
     "@microgamma/digator": "^1.10.5",
-    "@microgamma/datagator": "^1.10.3",
     "@microgamma/loggator": "^1.10.3",
-    "@bazooka/users": "file:../users"
+    "jsonwebtoken": "^8.4.0"
   },
   "devDependencies": {
     "ava": "^1.1.0"

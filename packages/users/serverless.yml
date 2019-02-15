@@ -22,17 +22,22 @@ provider:
   runtime: nodejs8.10
   stage: dev
   region: eu-west-2
-#  apiKeys:
-#  - microgamma-apiKey
+
   environment:
     MONGOURI: ${env:MONGODB_ATLAS_CLUSTER_URI, 'mongodb://192.168.254.2:27017/test'}
     DEBUG: ${env:DEBUG, ''}
     SECRET: ${env:SECRET, 'my-secure-secret'}
+
   apiGateway:
     restApiId:
       Fn::ImportValue: 'apiGateway-restApiId'
     restApiRootResourceId:
       Fn::ImportValue: 'apiGateway-rootResourceId'
+
+#  authorizer:
+#    type: CUSTOM
+#    authorizerId:
+#      Fn::ImportValue: 'ApiGatewayAuthorizerId'
 
 plugins:
   - serverless-plugin-monorepo
@@ -41,16 +46,15 @@ plugins:
 
 
 custom:
-  entrypoint: ./lib/handler
+  entrypoint: lib/handler
   buildFolder: /home/developer/src/services/packages/users/lib
-  serviceDefinition: /home/developer/src/services/packages/users/lib
+
 
 # you can overwrite defaults here
   stage: dev
   region: eu-west-2
 
-
 package:
   exclude:
-    ${file(../excludes.yml)}
+    ${file(../apigateway/excludes.yml)}
 

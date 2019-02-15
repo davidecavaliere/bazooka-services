@@ -1,18 +1,23 @@
-import { Endpoint, Lambda, Authorizer } from '@microgamma/apigator';
+import { Endpoint, Lambda } from '@microgamma/apigator';
 import { UserPersistenceService } from './user.persistence';
-import { verify } from 'jsonwebtoken';
 import { getDebugger } from '@microgamma/loggator';
 import { Inject, Injectable } from '@microgamma/digator';
 
 const d = getDebugger('microgamma:user.service');
 
+const authenticator = {
+  type: 'CUSTOM',
+  authorizerId:  {
+    'Fn::ImportValue': 'apigateway-ApiGatewayAuthorizerId'
+  }
+};
 
+@Injectable()
 @Endpoint({
   name: 'UserEndpoint',
   cors: true,
   basePath: '/users'
 })
-@Injectable()
 export class UserService {
 
   @Inject(UserPersistenceService)
@@ -22,7 +27,7 @@ export class UserService {
     name: 'findAll',
     path: '/',
     method: 'GET',
-    authorizer: 'authorize'
+    authorizer: authenticator
   })
   public async findAll() {
     return this.persistence.findAll();
@@ -32,7 +37,7 @@ export class UserService {
     name: 'findById',
     path: '/{id}',
     method: 'GET',
-    authorizer: 'authorize'
+    authorizer: authenticator
   })
   public async findById(id) {
     return this.persistence.findOne(id);
@@ -42,7 +47,7 @@ export class UserService {
     name: 'create',
     path: '/',
     method: 'POST',
-    authorizer: 'authorize'
+    authorizer: authenticator
   })
   public async create(body) {
     d('saving user', body);
@@ -53,7 +58,7 @@ export class UserService {
     name: 'update',
     path: '/',
     method: 'PUT',
-    authorizer: 'authorize'
+    authorizer: authenticator
   })
   public async update(body) {
     return this.persistence.update(body);
@@ -63,7 +68,7 @@ export class UserService {
     name: 'remove',
     path: '/{id}',
     method: 'DELETE',
-    authorizer: 'authorize'
+    authorizer: authenticator
   })
   public async remove(id) {
     return this.persistence.delete(id);
@@ -77,16 +82,6 @@ export class UserService {
   public async authenticate(body) {
     d('authenticating user with', body);
     return this.persistence.authenticate({email: body.email, password: body.password});
-  }
-
-  @Authorizer()
-  public async authorize(token, resource) {
-    d('got token', token);
-    d('got resource', resource);
-    const decoded = verify(token, process.env['SECRET']);
-    d('decoded token', decoded);
-
-    return decoded['_id'];
   }
 
 }

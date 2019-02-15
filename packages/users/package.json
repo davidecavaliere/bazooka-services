@@ -71,10 +71,10 @@
     ]
   },
   "dependencies": {
-    "@microgamma/apigator": "^1.10.9",
+    "@microgamma/apigator": "^1.10.11",
     "@microgamma/datagator": "^1.10.9",
     "@microgamma/digator": "^1.10.8",
     "@microgamma/loggator": "^1.10.3",
-    "@microgamma/serverless-apigator": "^1.10.9"
+    "jsonwebtoken": "^8.4.0"
   }
 }
