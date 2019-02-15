@@ -1,55 +1,34 @@
-# Welcome to Serverless!
-#
-# This file is the main config file for your service.
-# It's very minimal at this point and uses default values.
-# You can always add more config options for more control.
-# We've included some commented out config examples here.
-# Just uncomment any of them to get that config option.
-#
-# For full config options, check the docs:
-#    docs.serverless.com
-#
-# Happy Coding!
-
 service: microgamma-groups-service # NOTE: update this with your service name
-
-# You can pin your service to only deploy with a specific Serverless version
-# Check out our docs for more details
-# frameworkVersion: "=X.X.X"
 
 provider:
   name: aws
   runtime: nodejs8.10
   stage: dev
   region: eu-west-2
-#  apiKeys:
-#  - microgamma-apiKey
+
   environment:
     MONGOURI: ${env:MONGODB_ATLAS_CLUSTER_URI, 'mongodb://192.168.254.2:27017/test'}
     DEBUG: ${env:DEBUG, ''}
     SECRET: ${env:SECRET, 'my-secure-secret'}
+
   apiGateway:
     restApiId:
       Fn::ImportValue: 'apiGateway-restApiId'
     restApiRootResourceId:
       Fn::ImportValue: 'apiGateway-rootResourceId'
 
-
 plugins:
   - serverless-plugin-monorepo
   - '@microgamma/serverless-apigator'
   - serverless-offline
 
-
-
 custom:
-  entrypoint: ./lib/handler
+  entrypoint: lib/handler
   buildFolder: /home/developer/src/services/packages/groups/lib
 
 # you can overwrite defaults here
   stage: dev
   region: eu-west-2
-
 
 package:
   exclude:

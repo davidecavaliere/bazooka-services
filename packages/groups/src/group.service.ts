@@ -1,5 +1,4 @@
-import { Authorizer, Endpoint, Lambda } from '@microgamma/apigator';
-import { verify } from 'jsonwebtoken';
+import { Endpoint, Lambda } from '@microgamma/apigator';
 import { GroupPersistence } from './group.persistence';
 import { GroupModel } from './group.model';
 import { getDebugger } from '@microgamma/loggator';
@@ -7,9 +6,16 @@ import { Inject, Injectable } from '@microgamma/digator';
 
 const d = getDebugger('microgamma:service:groups');
 
+const authenticator = {
+  type: 'CUSTOM',
+  authorizerId:  {
+    'Fn::ImportValue': 'apigateway-ApiGatewayAuthorizerId'
+  }
+};
+
 @Endpoint({
   name: 'GroupEndpoint',
-  basePath: 'groups',
+  basePath: '/groups',
   cors: true
 })
 @Injectable()
@@ -22,7 +28,7 @@ export class GroupService {
     name: 'findAll',
     path: '/',
     method: 'GET',
-    authorizer: 'groupAuthorizer'
+    authorizer: authenticator
   })
   public async findAll() {
     return this.persistence.findAll();
@@ -32,7 +38,7 @@ export class GroupService {
     name: 'findById',
     path: '/{id}',
     method: 'GET',
-    authorizer: 'groupAuthorizer'
+    authorizer: authenticator
   })
   public async findById(id) {
     return this.persistence.findOne(id);
@@ -41,7 +47,7 @@ export class GroupService {
   @Lambda({
     path: '/owner/{ownerId}',
     method: 'GET',
-    authorizer: 'groupAuthorizer'
+    authorizer: authenticator
   })
   public async findByOwner(ownerId) {
     return this.persistence.findByOwner(ownerId);
@@ -50,7 +56,7 @@ export class GroupService {
   @Lambda({
     path: '/user/{userId}',
     method: 'GET',
-    authorizer: 'groupAuthorizer'
+    authorizer: authenticator
   })
   public async findByMember(userId) {
     return this.persistence.findByMember(userId);
@@ -60,7 +66,7 @@ export class GroupService {
     name: 'create',
     path: '/',
     method: 'POST',
-    authorizer: 'groupAuthorizer'
+    authorizer: authenticator
   })
   public async create(body: GroupModel, principalId: string) {
     d('saving Group', body);
@@ -74,7 +80,7 @@ export class GroupService {
     name: 'update',
     path: '/',
     method: 'PUT',
-    authorizer: 'groupAuthorizer'
+    authorizer: authenticator
   })
   public async update(body) {
     return this.persistence.update(body);
@@ -84,21 +90,10 @@ export class GroupService {
     name: 'remove',
     path: '/{id}',
     method: 'DELETE',
-    authorizer: 'groupAuthorizer'
+    authorizer: authenticator
   })
   public async remove(id) {
     return this.persistence.delete(id);
-  }
-
-  @Authorizer({
-    name: 'groupAuthorizer'
-  })
-  public async groupAuthorizer(token, resource) {
-    d('got token', token);
-    d('got resource', resource);
-    const decoded = verify(token, process.env['SECRET']);
-    console.log('decoded token', decoded);
-    return decoded['_id'];
   }
 
 }
