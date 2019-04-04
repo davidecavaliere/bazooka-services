@@ -13,6 +13,15 @@ const d = getDebugger('microgamma:auth:service');
 @Injectable()
 export class AuthService {
 
+  /*
+    example event auth context on AWS
+
+    enhancedAuthContext: {
+      principalId: '5b9532e32782813d49043f0b',
+      user: '5b9532e32782813d49043f0b'
+    }
+   */
+
   @Authorizer({
     name: 'generalAuthorizer'
   })
@@ -22,7 +31,7 @@ export class AuthService {
     const decoded = verify(token, process.env['SECRET']);
     d('decoded token', decoded);
 
-    return decoded['_id'];
+    return decoded;
   }
 
 }

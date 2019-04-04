@@ -84,4 +84,13 @@ export class UserService {
     return this.persistence.authenticate({email: body.email, password: body.password});
   }
 
+  @Lambda({
+    path: '/me',
+    method: 'GET',
+    authorizer: authenticator
+  })
+  public async me(principalId) {
+    return {_id: principalId};
+  }
+
 }
