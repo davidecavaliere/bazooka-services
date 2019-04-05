@@ -1,10 +1,10 @@
 import { Endpoint, Lambda } from '@microgamma/apigator';
 import { getDebugger } from '@microgamma/loggator';
 import { Injectable } from '@microgamma/digator';
-import S3 = require('aws-sdk/clients/s3');
 import { APIGatewayEventRequestContext } from 'aws-lambda';
 import { extension } from 'mime-types';
-import { __listOfResourceAccessPolicy } from 'aws-sdk/clients/greengrass';
+import S3 = require('aws-sdk/clients/s3');
+import uuid = require('uuid');
 
 const d = getDebugger('microgamma:file:service');
 
@@ -37,7 +37,7 @@ export class FileService {
     const url = this.s3.getSignedUrl('putObject', {
       Bucket: this.bucket,
       Metadata: metadata,
-      Key: Math.random() * 10 % 10 + ''
+      Key: uuid.v4(metadata.filename)
     });
 
     return {url: url};

@@ -78,7 +78,6 @@ resources:
     AttachmentsBucket:
       Type: AWS::S3::Bucket
       Properties:
-        AccessControl: PublicReadWrite
         CorsConfiguration:
           CorsRules:
             - AllowedOrigins:
