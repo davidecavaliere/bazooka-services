@@ -77,9 +77,9 @@
     ]
   },
   "dependencies": {
-    "@microgamma/apigator": "^1.10.5",
-    "@microgamma/digator": "^1.10.5",
-    "@microgamma/loggator": "^1.10.3",
+    "@microgamma/apigator": "file:../../node_modules/@microgamma/apigator",
+    "@microgamma/digator": "file:../../node_modules/@microgamma/digator",
+    "@microgamma/loggator": "file:../../node_modules/@microgamma/loggator",
     "jsonwebtoken": "^8.4.0"
   },
   "devDependencies": {

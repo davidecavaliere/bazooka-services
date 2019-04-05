@@ -1,0 +1,100 @@
+# Welcome to Serverless!
+#
+# This file is the main config file for your service.
+# It's very minimal at this point and uses default values.
+# You can always add more config options for more control.
+# We've included some commented out config examples here.
+# Just uncomment any of them to get that config option.
+#
+# For full config options, check the docs:
+#    docs.serverless.com
+#
+# Happy Coding!
+
+service: microgamma-file-service # NOTE: update this with your service name
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  stage: dev
+  region: eu-west-2
+
+  environment:
+    DEBUG: ${env:DEBUG, ''}
+    SECRET: ${env:SECRET, 'my-secure-secret'}
+
+  apiGateway:
+    restApiId:
+      Fn::ImportValue: 'apiGateway-restApiId'
+    restApiRootResourceId:
+      Fn::ImportValue: 'apiGateway-rootResourceId'
+
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "s3:*"
+      Resource:
+        - { "Fn::Join": ["", ["arn:aws:s3:::", { "Ref": "AttachmentsBucket" } ]]}
+        - "arn:aws:s3:::microgamma-file-service-dev-attachmentsbucket-ynxxuobqz5tc/*"
+
+plugins:
+#  - serverless-localstack
+  - serverless-plugin-monorepo
+  - '@microgamma/serverless-apigator'
+  - serverless-offline
+
+custom:
+  entrypoint: lib/handler
+  buildFolder: /home/developer/src/services/packages/files/lib
+
+  localstack:
+    host: http://192.168.254.3
+    stages:
+      # list of stages for which the plugin should be enabled
+      - local
+#    autostart: true  # optional - start LocalStack in Docker on Serverless deploy
+#    endpoints:
+#      # This section is optional - can be used for customizing the target endpoints
+#      S3: http://192.168.254.3:4572
+#      DynamoDB: http://192.168.254.3:4570
+#      CloudFormation: http://192.168.254.3:4581
+#      Elasticsearch: http://192.168.254.3:4571
+#      ES: http://192.168.254.3:4578
+#      SNS: http://192.168.254.3:4575
+#      SQS: http://192.168.254.3:4576
+#      Lambda: http://192.168.254.3:4574
+#      Kinesis: http://192.168.254.3:4568
+#    lambda:
+#       Enable this flag to improve performance
+#      mountCode: True
+
+package:
+  exclude:
+    ${file(../apigateway/excludes.yml)}
+
+
+resources:
+  Resources:
+    AttachmentsBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        AccessControl: PublicReadWrite
+        CorsConfiguration:
+          CorsRules:
+            - AllowedOrigins:
+                - '*'
+              AllowedHeaders:
+                - '*'
+              AllowedMethods:
+                - GET
+                - PUT
+                - POST
+                - DELETE
+                - HEAD
+              MaxAge: 3000
+
+  # Print out the name of the bucket that is created
+  Outputs:
+    AttachmentsBucketName:
+      Value:
+        Ref: AttachmentsBucket

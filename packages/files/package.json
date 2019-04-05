@@ -1,29 +1,55 @@
 {
-  "name": "files",
+  "name": "@bazooka/files",
   "version": "1.10.5",
+  "private": true,
   "description": "file upload/download on S3",
   "author": "Davide Cavaliere <cavaliere.davide@gmail.com>",
   "homepage": "https://github.com/davidecavaliere/bazooka-services#readme",
   "license": "MIT",
-  "main": "lib/files.js",
+  "main": "index.js",
+  "typings": "index.d.ts",
+  "module": "index.js",
   "directories": {
-    "lib": "lib",
-    "test": "__tests__"
+    "lib": "lib"
   },
   "files": [
     "lib"
   ],
-  "publishConfig": {
-    "registry": "https://registry.yarnpkg.com"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/davidecavaliere/bazooka-services.git"
   },
   "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1"
+    "prebuild": "run-s clean",
+    "build": "tsc -p tsconfig.json",
+    "test": "run-s test:*",
+    "test:unit": "nyc --silent ava",
+    "test:unit:debug": "node --inspect  nyc --silent ava",
+    "watch": "run-s clean build && run-p \"build -- -w\" \"test:unit -- --watch\"",
+    "watch:debug": "run-s clean build:main && run-p \"build:main -- -w\" \"test:unit:debug -- --watch\"",
+    "cov": "run-s build test:unit cov:html && opn coverage/index.html",
+    "cov:html": "nyc report --reporter=html",
+    "cov:send": "nyc report --reporter=lcov > coverage.lcov && codecov",
+    "cov:check": "nyc report && nyc check-coverage --lines 100 --functions 100 --branches 100",
+    "doc": "run-s doc:html && opn build/docs/index.html",
+    "doc:html": "typedoc src/ --target ES6 --mode file --out build/docs",
+    "doc:json": "typedoc src/ --target ES6 --mode file --json build/docs/typedoc.json",
+    "doc:publish": "gh-pages -m \"[ci skip] Updates\" -d build/docs",
+    "clean": "trash lib",
+    "prepare-release": "run-s all version doc:publish",
+    "sls": "sls"
   },
   "bugs": {
     "url": "https://github.com/davidecavaliere/bazooka-services/issues"
+  },
+  "dependencies": {
+    "@microgamma/apigator": "file:../../node_modules/@microgamma/apigator",
+    "@microgamma/digator": "file:../../node_modules/@microgamma/digator",
+    "@microgamma/loggator": "file:../../node_modules/@microgamma/loggator",
+    "@types/mime-types": "^2.1.0",
+    "mime-types": "^2.1.22"
+  },
+  "devDependencies": {
+    "aws-sdk": "^2.435.0"
   }
 }

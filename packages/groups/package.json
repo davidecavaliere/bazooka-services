@@ -14,7 +14,6 @@
     "test": "run-s test:*",
     "test:unit": "nyc --silent ava",
     "test:unit:debug": "node --inspect  nyc --silent ava",
-
     "watch": "run-s clean build && run-p \"build -- -w\" \"test:unit -- --watch\"",
     "watch:debug": "run-s clean build:main && run-p \"build:main -- -w\" \"test:unit:debug -- --watch\"",
     "cov": "run-s build test:unit cov:html && opn coverage/index.html",
@@ -27,7 +26,6 @@
     "doc:publish": "gh-pages -m \"[ci skip] Updates\" -d build/docs",
     "clean": "trash lib",
     "prepare-release": "run-s all version doc:publish",
-
     "sls": "sls"
   },
   "ava": {
@@ -73,9 +71,9 @@
     ]
   },
   "dependencies": {
-    "@microgamma/apigator": "^1.10.11",
-    "@microgamma/datagator": "^1.10.9",
-    "@microgamma/digator": "^1.10.8",
-    "@microgamma/loggator": "^1.10.3"
+    "@microgamma/apigator": "file:../../node_modules/@microgamma/apigator",
+    "@microgamma/datagator": "file:../../node_modules/@microgamma/datagator",
+    "@microgamma/digator": "file:../../node_modules/@microgamma/digator",
+    "@microgamma/loggator": "file:../../node_modules/@microgamma/loggator"
   }
 }

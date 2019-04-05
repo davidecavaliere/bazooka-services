@@ -32,4 +32,4 @@ custom:
 
 package:
   exclude:
-    ${file(../apigateway/iexcludes.yml)}
+    ${file(../apigateway/excludes.yml)}
