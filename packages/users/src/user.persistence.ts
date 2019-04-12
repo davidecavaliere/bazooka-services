@@ -25,7 +25,7 @@ export class UserPersistenceService extends PersistenceService<User> {
     d('user found', user);
     d('hashed password', user.hashedPassword);
     d('hash from given password', User.encryptPassword(password, user.salt));
-    if ( User.encryptPassword(password, user.salt) == user.hashedPassword) {
+    if ( User.encryptPassword(password, user.salt) === user.hashedPassword) {
 
       user.token = sign(user, process.env['SECRET']);
 

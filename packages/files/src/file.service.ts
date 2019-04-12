@@ -1,12 +1,11 @@
 import { Endpoint, Lambda } from '@microgamma/apigator';
-import { getDebugger } from '@microgamma/loggator';
+import { Log } from '@microgamma/loggator';
 import { Injectable } from '@microgamma/digator';
 import { APIGatewayEventRequestContext } from 'aws-lambda';
 import { extension } from 'mime-types';
 import S3 = require('aws-sdk/clients/s3');
 import uuid = require('uuid');
 
-const d = getDebugger('microgamma:file:service');
 
 
 @Endpoint({
@@ -15,6 +14,9 @@ const d = getDebugger('microgamma:file:service');
 })
 @Injectable()
 export class FileService {
+  
+  @Log('microgamma')
+  private $l;
 
   private s3: S3;
   private bucket = 'microgamma-file-service-dev-attachmentsbucket-ynxxuobqz5tc';
@@ -33,7 +35,7 @@ export class FileService {
     path: '/getSignedUrl'
   })
   public async getSignedUrl(metadata) {
-    d('got metadata', metadata);
+    this.$l('got metadata', metadata);
     const url = this.s3.getSignedUrl('putObject', {
       Bucket: this.bucket,
       Metadata: metadata,
@@ -53,19 +55,23 @@ export class FileService {
   public async downloadFile(fileId, context: APIGatewayEventRequestContext) {
     return new Promise((res, rej) => {
 
-      d('context is', context);
+      this.$l('context is', context);
 
       this.s3.headObject({
         Bucket: this.bucket,
         Key: fileId
       }, (err, response: S3.Types.HeadObjectOutput) => {
 
-        if (err) rej(Error(`[500] ${err}`));
+        if (err) {
+          return rej(Error(`[500] ${err}`));
+        }
 
 
-        if (!response) rej((Error(`[404] - object not found`)));
+        if (!response) {
+          return rej((Error(`[404] - object not found`)));
+        }
 
-        d('got object metadata', response);
+        this.$l('got object metadata', response);
 
         let filename = fileId;
 
@@ -81,7 +87,7 @@ export class FileService {
           ResponseContentDisposition: `attachment; filename="${filename}"`
         });
 
-        res({
+        return res({
           statusCode: 301,
           headers: {
             Location: url

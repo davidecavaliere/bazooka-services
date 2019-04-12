@@ -1,20 +1,25 @@
 // tslint:disable:no-expression-statement no-object-mutation
-import test from 'ava';
 import { GroupService } from './group.service';
 import { getDebugger } from '@microgamma/loggator';
 
 const d = getDebugger('microgamma:group.service.spec');
 
-let instance: GroupService;
+describe('group.service', () => {
+  let instance: GroupService;
 
-test.beforeEach(() => {
-  instance = new GroupService();
+  beforeEach(() => {
+    instance = new GroupService();
+  });
+
+  it('can be instantiated', () => {
+    d('instance', instance);
+    expect(instance instanceof GroupService).toBeTruthy();
+  });
 });
 
-test.only('can be instantiated', t => {
-  d('instance', instance);
-  t.is(instance instanceof GroupService, true);
-});
+
+
+
 
 
 

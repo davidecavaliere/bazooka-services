@@ -1,56 +1,62 @@
 // tslint:disable:no-expression-statement no-object-mutation
-import test from 'ava';
 import { User } from './user.model';
 import { getDebugger } from '@microgamma/loggator';
 
 const d = getDebugger('microgamma:user.model.spec');
 
-let instance: User;
-
-const user = {
-  password: 'my-password',
-  company: 'my-realms',
-  email: 'email',
-  name: 'my-name',
-  role: 'pawn'
-};
 
 
 
-test.beforeEach(() => {
-  d('running user modelFactory tests');
+describe('user.model', () => {
+
+  let instance: User;
+
+  const user = {
+    password: 'my-password',
+    company: 'my-realms',
+    email: 'email',
+    name: 'my-name',
+    role: 'pawn'
+  };
+
+  beforeEach(() => {
+    instance = new User(user);
+    d('instance', instance);
+
+  });
+
+
+  it('should set given fields', () => {
+    expect(instance instanceof User).toBeTruthy();
+    expect(instance.name).toEqual(user.name);
+    expect(instance.email).toEqual(user.email);
+  
+    // TODO add the following checks
+    // expect.is(instance.hashedPassword, );
+    // expect.is(instance.salt, 'abc');
+    // expect.is(instance.realms, 'testcompany');
+  
+    expect(instance.settings).toBeFalsy();
+  
+  });
+  
 });
 
-test('user modelFactory', t => {
-  instance = new User(user);
-  d('instance', instance);
-  t.is(instance instanceof User, true);
-  t.is(instance.name, user.name);
-  t.is(instance.email, user.email);
 
-  // TODO add the following checks
-  // t.is(instance.hashedPassword, );
-  // t.is(instance.salt, 'abc');
-  // t.is(instance.realms, 'testcompany');
-
-  t.deepEqual(instance.settings, undefined);
-
-});
-
-// test('should have a schema definition', t => {
-//   t.deepEqual(getColumnMetadata(instance), {});
+// test('should have a schema definition', expect => {
+//   expect.deepEqual(getColumnMetadata(instance), {});
 // });
 //
-// test('should have collection metadata', t => {
-//   // t.deepEqual(instance['collection'], {});
+// test('should have collection metadata', expect => {
+//   // expect.deepEqual(instance['collection'], {});
 // });
 
 
-// test('should connect to db when trying to getModel()', t => {
-//   t.plan(1);
+// test('should connect to db when trying to getModel()', expect => {
+//   expect.plan(1);
 //   return instance.findAll().then((docs) => {
 //     d('found docs', docs);
-//     t.is(true, true);
+//     expect.is(true, true);
 //   });
 //
 // });

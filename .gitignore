@@ -1,10 +1,12 @@
 .idea
-.nyc_output
+coverage
 .serverless
 
 node_modules
 packages/**/lib
 packages/**/.serverless
+packages/**/.yarnclean
 
 *.log
 yarn.lock
+.yarnclean

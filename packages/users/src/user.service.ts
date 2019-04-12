@@ -2,6 +2,7 @@ import { Endpoint, Lambda } from '@microgamma/apigator';
 import { UserPersistenceService } from './user.persistence';
 import { getDebugger } from '@microgamma/loggator';
 import { Inject, Injectable } from '@microgamma/digator';
+import { User } from './user.model';
 
 const d = getDebugger('microgamma:user.service');
 
@@ -21,7 +22,7 @@ const authenticator = {
 export class UserService {
 
   @Inject(UserPersistenceService)
-  persistence: UserPersistenceService;
+  private readonly persistence: UserPersistenceService;
 
   @Lambda({
     name: 'findAll',
@@ -79,7 +80,7 @@ export class UserService {
     path: '/auth',
     method: 'POST'
   })
-  public async authenticate(body) {
+  public async authenticate(body): Promise<User> {
     d('authenticating user with', body);
     return this.persistence.authenticate({email: body.email, password: body.password});
   }
@@ -89,7 +90,7 @@ export class UserService {
     method: 'GET',
     authorizer: authenticator
   })
-  public async me(principalId) {
+  public async me(principalId): Promise<{ _id: string }> {
     return {_id: principalId};
   }
 
