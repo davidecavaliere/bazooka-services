@@ -35,7 +35,7 @@ provider:
         - "s3:*"
       Resource:
         - { "Fn::Join": ["", ["arn:aws:s3:::", { "Ref": "AttachmentsBucket" } ]]}
-        - "arn:aws:s3:::microgamma-file-service-dev-attachmentsbucket-ynxxuobqz5tc/*"
+        - { "Fn::Join": ["", ["arn:aws:s3:::", { "Ref": "AttachmentsBucket" }, "/*" ]]}
 
 plugins:
 #  - serverless-localstack

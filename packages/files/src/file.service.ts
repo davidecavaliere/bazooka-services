@@ -75,14 +75,11 @@ export class FileService {
           filename += '.' + this.mapContentType(response.ContentType);
         }
 
-
-
         const url = this.s3.getSignedUrl('getObject',{
           Bucket: this.bucket,
           Key: fileId,
           ResponseContentDisposition: `attachment; filename="${filename}"`
         });
-
 
         res({
           statusCode: 301,
