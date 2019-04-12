@@ -43,9 +43,9 @@
     "url": "https://github.com/davidecavaliere/bazooka-services/issues"
   },
   "dependencies": {
-    "@microgamma/apigator": "file:../../node_modules/@microgamma/apigator",
-    "@microgamma/digator": "file:../../node_modules/@microgamma/digator",
-    "@microgamma/loggator": "file:../../node_modules/@microgamma/loggator",
+    "@microgamma/apigator": "^1.10.23",
+    "@microgamma/digator": "^1.10.23",
+    "@microgamma/loggator": "^1.10.18",
     "@types/mime-types": "^2.1.0",
     "@types/uuid": "^3.4.4",
     "mime-types": "^2.1.22",

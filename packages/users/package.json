@@ -71,10 +71,10 @@
     ]
   },
   "dependencies": {
-    "@microgamma/apigator": "file:../../node_modules/@microgamma/apigator",
-    "@microgamma/datagator": "file:../../node_modules/@microgamma/datagator",
-    "@microgamma/digator": "file:../../node_modules/@microgamma/digator",
-    "@microgamma/loggator": "file:../../node_modules/@microgamma/loggator",
+    "@microgamma/apigator": "^1.10.23",
+    "@microgamma/datagator": "^1.10.23",
+    "@microgamma/digator": "^1.10.23",
+    "@microgamma/loggator": "^1.10.18",
     "jsonwebtoken": "^8.4.0"
   }
 }
