@@ -1,9 +1,7 @@
 import { Authorizer, Endpoint } from '@microgamma/apigator';
 import { verify } from 'jsonwebtoken';
-import { getDebugger } from '@microgamma/loggator';
+import { Log } from '@microgamma/loggator';
 import { Injectable } from '@microgamma/digator';
-
-const d = getDebugger('microgamma:auth:service');
 
 
 @Endpoint({
@@ -12,6 +10,8 @@ const d = getDebugger('microgamma:auth:service');
 })
 @Injectable()
 export class AuthService {
+  @Log('microgamma:auth:service')
+  private d;
 
   /*
     example event auth context on AWS
@@ -26,10 +26,11 @@ export class AuthService {
     name: 'generalAuthorizer'
   })
   public async generalAuthorizer(token, resource) {
-    d('got token', token);
-    d('got resource', resource);
+
+    this.d('got token', token);
+    this.d('got resource', resource);
     const decoded = verify(token, process.env['SECRET']);
-    d('decoded token', decoded);
+    this.d('decoded token', decoded);
 
     return decoded;
   }

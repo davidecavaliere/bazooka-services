@@ -1,10 +1,8 @@
 import { Endpoint, Lambda } from '@microgamma/apigator';
 import { GroupPersistence } from './group.persistence';
 import { GroupModel } from './group.model';
-import { getDebugger } from '@microgamma/loggator';
+import { Log } from '@microgamma/loggator';
 import { Inject, Injectable } from '@microgamma/digator';
-
-const d = getDebugger('microgamma:service:groups');
 
 const authenticator = {
   type: 'CUSTOM',
@@ -20,6 +18,9 @@ const authenticator = {
 })
 @Injectable()
 export class GroupService {
+
+  @Log('microgamma:service:groups')
+  private d;
 
   @Inject(GroupPersistence)
   private persistence: GroupPersistence;
@@ -69,7 +70,7 @@ export class GroupService {
     authorizer: authenticator
   })
   public async create(body: GroupModel, principalId: string) {
-    d('saving Group', body);
+    this.d('saving Group', body);
 
     body.owner = principalId;
 

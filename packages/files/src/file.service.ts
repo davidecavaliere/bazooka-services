@@ -6,8 +6,6 @@ import { extension } from 'mime-types';
 import S3 = require('aws-sdk/clients/s3');
 import uuid = require('uuid');
 
-
-
 @Endpoint({
   name: 'FileService',
   cors: true
