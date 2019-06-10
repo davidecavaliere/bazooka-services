@@ -31,8 +31,10 @@
     "sls": "sls",
     "sls:offline": "nodemon -w build/main --exec \"sls offline start --host 0.0.0.0\"",
     "watch:sls:offline": "run-s clean build:main && run-p \"build:main -- -w\" \"sls:offline\"",
-    "sls:deploy:dev": "yarn build && DEBUG=microgamma:* MONGODB_ATLAS_CLUSTER_URI='mongodb://lambdauser:71HLFBmfB7srpA7T@cluster0-shard-00-00-rqrkt.mongodb.net:27017,cluster0-shard-00-01-rqrkt.mongodb.net:27017,cluster0-shard-00-02-rqrkt.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true' sls deploy --stage dev",
-    "update:microgamma": "y"
+    "sls:deploy:dev": "yarn build && DEBUG=microgamma:* MONGODB_ATLAS_CLUSTER_URI='mongodb://lambdauser:71HLFBmfB7srpA7T@cluster0-shard-00-00-rqrkt.mongodb.net:27017,cluster0-shard-00-01-rqrkt.mongodb.net:27017,cluster0-shard-00-02-rqrkt.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true' yarn sls deploy --stage dev",
+    "update:microgamma": "yarn lerna add @microgamma/apigator@latest @microgamma/loggator@latest @microgamma/digator@latest",
+    "deploy:changed": "ts-node ./scripts/deploy-changed.ts",
+    "deploy:one": ""
   },
   "engines": {
     "node": ">=8.9"
@@ -70,7 +72,7 @@
     "standard-version": "^4.4.0",
     "trash-cli": "^1.4.0",
     "ts-jest": "^24.0.2",
-    "ts-node": "^7.0.0",
+    "ts-node": "^8.0.3",
     "tslint": "^5.10.0",
     "tslint-config-prettier": "^1.13.0",
     "tslint-immutable": "^4.5.4",
@@ -82,7 +84,8 @@
       "<rootDir>/packages/apigateway/src",
       "<rootDir>/packages/files/src",
       "<rootDir>/packages/users/src",
-      "<rootDir>/packages/groups/src"
+      "<rootDir>/packages/groups/src",
+      "<rootDir>/scripts"
     ],
     "transform": {
       "^.+\\.ts?$": "ts-jest"
