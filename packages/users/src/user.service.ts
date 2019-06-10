@@ -91,7 +91,7 @@ export class UserService {
     authorizer: authenticator
   })
   public async me(principalId): Promise<{ _id: string }> {
-    return {_id: principalId};
+    return this.persistence.findOne(principalId);
   }
 
 }
