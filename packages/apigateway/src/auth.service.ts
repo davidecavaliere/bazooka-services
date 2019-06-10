@@ -11,7 +11,7 @@ import { Injectable } from '@microgamma/digator';
 @Injectable()
 export class AuthService {
   @Log('microgamma:auth:service')
-  private d;
+  private $l;
 
   /*
     example event auth context on AWS
@@ -27,12 +27,12 @@ export class AuthService {
   })
   public async generalAuthorizer(token, resource) {
 
-    this.d('got token', token);
-    this.d('got resource', resource);
+    this.$l.d('got token', token);
+    this.$l.d('got resource', resource);
     const decoded = verify(token, process.env['SECRET']);
-    this.d('decoded token', decoded);
+    this.$l.d('decoded token', decoded);
 
-    return decoded;
+    return decoded['_id'];
   }
 
 }
