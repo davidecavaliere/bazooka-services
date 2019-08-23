@@ -10,6 +10,19 @@ provider:
     MONGOURI: ${env:MONGODB_ATLAS_CLUSTER_URI, 'mongodb://192.168.254.2:27017/test'}
     DEBUG: ${env:DEBUG, ''}
     SECRET: ${env:SECRET, 'my-secure-secret'}
+    DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}
+
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
+
 
   apiGateway:
     restApiId:
@@ -33,3 +46,21 @@ custom:
 package:
   exclude:
     ${file(../apigateway/excludes.yml)}
+
+  Resources:
+    UsersTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: id
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:provider.environment.DYNAMODB_TABLE}
