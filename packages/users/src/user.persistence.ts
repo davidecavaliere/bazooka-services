@@ -19,17 +19,16 @@ export class UserPersistenceService extends PersistenceService<User> {
     const user = await (await this.getCollection()).findOne({ email: email });
     if (!user) {
       // @ts-ignore
-      throw new Error('[403] Unable to authenticate user');
+      throw new Error(`[403] Unable to authenticate user: ${email}`);
     }
 
     d('user found', user);
-    d('hashed password', user.hashedPassword);
-    d('hash from given password', User.encryptPassword(password, user.salt));
-    if ( User.encryptPassword(password, user.salt) === user.hashedPassword) {
+
+    if (user.authenticate(password)) {
 
       user.token = sign(user, process.env['SECRET']);
 
-      return new User(user).toJson();
+      return user;
     } else {
       // @ts-ignore
       throw new Error('[403] Unable to authenticate');

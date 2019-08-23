@@ -19,18 +19,14 @@ export class User extends BaseModel {
   @Column()
   public role: any  = 'pawn';
 
-  @Column({
-    private: true
-  })
-  public hashedPassword?: string;
+  @Column()
+  private hashedPassword?: string;
 
   @Column()
   public token?: string;
 
-  @Column({
-    private: true
-  })
-  public salt?: string;
+  @Column()
+  private salt?: string;
 
   @Column()
   public realms? = [];
@@ -43,7 +39,7 @@ export class User extends BaseModel {
       d('setting password', password);
       this.salt = User.makeSalt();
       d('this.salt', this.salt);
-      this.hashedPassword = User.encryptPassword(password, this.salt);
+      this.hashedPassword = this.encryptPassword(password);
       d('encryptedPassword', this.hashedPassword);
       d('this is', this);
 
@@ -53,10 +49,14 @@ export class User extends BaseModel {
     return crypto.randomBytes(16).toString('base64');
   }
 
-  public static encryptPassword(password, salt) {
-    return crypto.createHmac('sha256', salt)
+  private encryptPassword(password) {
+    return crypto.createHmac('sha256', this.salt)
       .update(password)
       .digest('hex');
+  }
+
+  public authenticate(password: string): boolean {
+    return this.encryptPassword(password) === this.hashedPassword;
   }
 
 }
