@@ -3,6 +3,7 @@ import { UserPersistenceService } from './user.persistence';
 import { getDebugger } from '@microgamma/loggator';
 import { Inject, Injectable } from '@microgamma/digator';
 import { User } from './user.model';
+import { DynamoDB } from 'aws-sdk';
 
 const d = getDebugger('microgamma:user.service');
 
@@ -24,6 +25,12 @@ export class UserService {
   @Inject(UserPersistenceService)
   private readonly persistence: UserPersistenceService;
 
+  private ddb = new DynamoDB();
+
+  private params = {
+    TableName: process.env.DYNAMODB_TABLE
+  };
+
   @Lambda({
     name: 'findAll',
     path: '/',
@@ -31,7 +38,15 @@ export class UserService {
     authorizer: authenticator
   })
   public async findAll() {
-    return this.persistence.findAll();
+
+    this.ddb.scan(this.params, (err, data) => {
+      if (err) {
+        throw err;
+      }
+
+      return data;
+    });
+
   }
 
   @Lambda({
