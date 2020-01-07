@@ -1,17 +1,22 @@
-name: CI
+name: Test and Build
 
 on: [push]
 
 jobs:
-  build:
-
+  test:
     runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: install
+        run: yarn install --frozen-lockfile
+      - name: test
+        run: yarn test
 
+  build:
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
     - name: install
       run: yarn install --frozen-lockfile
-    - name: test
-      run: yarn test
     - name: build
       run: yarn build
