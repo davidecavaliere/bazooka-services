@@ -9,8 +9,10 @@
   "license": "MIT",
   "keywords": [],
   "scripts": {
+    "clean": "trash lib",
     "prebuild": "run-s clean",
     "build": "tsc -p tsconfig.json",
+    "build:watch": "nodemon -w src --exec 'yarn build'",
     "test": "jest --coverage",
     "test:unit": "jest",
     "test:watch": "jest --watch",
@@ -24,10 +26,15 @@
     "doc:html": "typedoc src/ --target ES6 --mode file --out build/docs",
     "doc:json": "typedoc src/ --target ES6 --mode file --json build/docs/typedoc.json",
     "doc:publish": "gh-pages -m \"[ci skip] Updates\" -d build/docs",
-    "clean": "trash lib",
     "prepare-release": "run-s all version doc:publish",
     "sls": "sls",
-    "deploy": "ls -al"
+    "deploy": "ls -al",
+    "wait": "sleep 10",
+    "watch:build-output": "nodemon -w lib --exec \"ls -al lib\"",
+    "watch:sls:offline": "run-p build:watch watch:build-output",
+    "sls:offline": "AUTHORIZER='{\"principalId\": \"123\"}' SLS_DEBUG=* DEBUG=microgamma:* nodemon -w lib --exec \"sls offline start --host 0.0.0.0 --noAuth\"",
+    "sls:deploy:dev": "yarn build && DEBUG=microgamma:* yarn sls deploy --stage dev",
+    "deploy:dev": "DEBUG=microgamma:* yarn sls deploy --stage dev"
   },
   "jest": {
     "roots": [
@@ -36,7 +43,7 @@
     "transform": {
       "^.+\\.ts?$": "ts-jest"
     },
-    "testRegex": "(/__tests__/.*|(\\.|/)(test))\\.ts?$",
+    "testRegex": "(/__tests__/.*|(\\.|/)(spec))\\.ts?$",
     "moduleFileExtensions": [
       "ts",
       "tsx",
@@ -50,10 +57,17 @@
     ]
   },
   "dependencies": {
-    "@microgamma/apigator": "^1.10.23",
-    "@microgamma/datagator": "^1.10.23",
-    "@microgamma/digator": "^1.10.23",
-    "@microgamma/loggator": "^1.10.18",
+    "@microgamma/apigator": "^1.12.0",
+    "@microgamma/datagator": "^1.12.1",
+    "@microgamma/dynamodb": "^1.12.2",
+    "@microgamma/digator": "^1.11.12",
+    "@microgamma/loggator": "^1.11.12",
     "jsonwebtoken": "^8.4.0"
+  },
+  "devDependencies": {
+    "serverless": "^1.30.1",
+    "serverless-dynamodb-local": "^0.2.35",
+    "serverless-domain-manager": "^2.6.11",
+    "serverless-offline": "^3.25.9"
   }
 }

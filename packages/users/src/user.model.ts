@@ -5,10 +5,13 @@ import { getDebugger } from '@microgamma/loggator';
 const d = getDebugger('microgamma:user.model');
 
 
-export class User extends BaseModel {
+export class User extends BaseModel<User> {
 
-  @Column()
-  public _id: string;
+
+  @Column({
+    primaryKey: true
+  })
+  public id?: string;
 
   @Column()
   public name: string;
@@ -17,16 +20,20 @@ export class User extends BaseModel {
   public email: string;
 
   @Column()
-  public role: any  = 'pawn';
+  public role: string;
 
-  @Column()
-  private hashedPassword?: string;
+  @Column({
+    private: true
+  })
+  public hashedPassword?: string;
 
   @Column()
   public token?: string;
 
-  @Column()
-  private salt?: string;
+  @Column({
+    private: true
+  })
+  public salt?: string;
 
   @Column()
   public realms? = [];
@@ -34,10 +41,13 @@ export class User extends BaseModel {
   @Column()
   public settings?;
 
+
   public set password(password) {
     d('this in setter function is', this);
       d('setting password', password);
-      this.salt = User.makeSalt();
+      if (!this.salt) {
+        this.salt = User.makeSalt();
+      }
       d('this.salt', this.salt);
       this.hashedPassword = this.encryptPassword(password);
       d('encryptedPassword', this.hashedPassword);
@@ -50,12 +60,16 @@ export class User extends BaseModel {
   }
 
   private encryptPassword(password) {
+
+    d('salt is ', this.salt);
     return crypto.createHmac('sha256', this.salt)
       .update(password)
       .digest('hex');
   }
 
   public authenticate(password: string): boolean {
+    d('checking passowrd', password);
+    d('this.hashedPassword', this.hashedPassword);
     return this.encryptPassword(password) === this.hashedPassword;
   }
 

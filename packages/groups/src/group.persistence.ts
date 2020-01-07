@@ -1,6 +1,7 @@
 import { GroupModel } from './group.model';
-import { Persistence, PersistenceService } from '@microgamma/datagator';
+import { Persistence} from '@microgamma/datagator';
 import { Injectable } from '@microgamma/digator';
+import { MongodbService } from '@microgamma/mongodb';
 
 
 @Persistence({
@@ -10,7 +11,7 @@ import { Injectable } from '@microgamma/digator';
   model: GroupModel
 })
 @Injectable()
-export class GroupPersistence extends PersistenceService<GroupModel> {
+export class GroupPersistence extends MongodbService<GroupModel> {
 
   public async findByOwner(ownerId) {
     return super.findAll({owner: ownerId});

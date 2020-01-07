@@ -10,7 +10,7 @@ provider:
     MONGOURI: ${env:MONGODB_ATLAS_CLUSTER_URI, 'mongodb://192.168.254.2:27017/test'}
     DEBUG: ${env:DEBUG, ''}
     SECRET: ${env:SECRET, 'my-secure-secret'}
-    DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}
+    DYNAMODB_TABLE: DDB3_${self:service}-${opt:stage, self:provider.stage}
 
   iamRoleStatements:
     - Effect: Allow
@@ -21,7 +21,7 @@ provider:
         - dynamodb:PutItem
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
-      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
+      Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
 
 
   apiGateway:
@@ -33,11 +33,18 @@ provider:
 plugins:
   - serverless-plugin-monorepo
   - '@microgamma/serverless-apigator'
+  - serverless-dynamodb-local
   - serverless-offline
 
 custom:
   entrypoint: lib/handler
   buildFolder: /home/developer/src/services/packages/users/lib
+  dynamodb:
+    start:
+      migrate: true
+    # If you only want to use DynamoDB Local in some stages, declare them here
+    stages:
+      - dev
 
 # you can overwrite defaults here
   stage: dev
@@ -47,6 +54,8 @@ package:
   exclude:
     ${file(../apigateway/excludes.yml)}
 
+
+resources:
   Resources:
     UsersTable:
       Type: 'AWS::DynamoDB::Table'
@@ -56,10 +65,24 @@ package:
           -
             AttributeName: id
             AttributeType: S
+          -
+            AttributeName: email
+            AttributeType: S
+
         KeySchema:
           -
-            AttributeName: id
+            AttributeName: email
             KeyType: HASH
+        GlobalSecondaryIndexes:
+          - IndexName: idIndex
+            KeySchema:
+              - AttributeName: id
+                KeyType: HASH
+            Projection:
+              ProjectionType: KEYS_ONLY
+            ProvisionedThroughput:
+              ReadCapacityUnits: 5
+              WriteCapacityUnits: 5
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1

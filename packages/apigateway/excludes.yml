@@ -1,3 +1,4 @@
+- .dynamodb/**
 - .nyc_output/**
 - src/**
 - package*.json

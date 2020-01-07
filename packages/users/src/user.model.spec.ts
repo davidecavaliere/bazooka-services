@@ -4,9 +4,6 @@ import { getDebugger } from '@microgamma/loggator';
 
 const d = getDebugger('microgamma:user.model.spec');
 
-
-
-
 describe('user.model', () => {
 
   let instance: User;
@@ -42,21 +39,3 @@ describe('user.model', () => {
   
 });
 
-
-// test('should have a schema definition', expect => {
-//   expect.deepEqual(getColumnMetadata(instance), {});
-// });
-//
-// test('should have collection metadata', expect => {
-//   // expect.deepEqual(instance['collection'], {});
-// });
-
-
-// test('should connect to db when trying to getModel()', expect => {
-//   expect.plan(1);
-//   return instance.findAll().then((docs) => {
-//     d('found docs', docs);
-//     expect.is(true, true);
-//   });
-//
-// });

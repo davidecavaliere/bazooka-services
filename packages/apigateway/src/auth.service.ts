@@ -32,7 +32,8 @@ export class AuthService {
     const decoded = verify(token, process.env['SECRET']);
     this.$l.d('decoded token', decoded);
 
-    return decoded['_id'];
+
+    return decoded['id'];
   }
 
 }

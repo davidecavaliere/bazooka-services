@@ -1,9 +1,9 @@
 import { BaseModel, Column } from '@microgamma/datagator';
 
-export class GroupModel extends BaseModel {
+export class GroupModel extends BaseModel<GroupModel> {
 
   @Column()
-  public _id: string;
+  public _id?: string;
 
   @Column()
   public name: string;

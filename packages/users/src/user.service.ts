@@ -3,11 +3,13 @@ import { UserPersistenceService } from './user.persistence';
 import { getDebugger } from '@microgamma/loggator';
 import { Inject, Injectable } from '@microgamma/digator';
 import { User } from './user.model';
-import { DynamoDB } from 'aws-sdk';
+import { verify } from 'jsonwebtoken';
+// tslint:disable: no-implicit-dependencies
 
 const d = getDebugger('microgamma:user.service');
 
 const authenticator = {
+
   type: 'CUSTOM',
   authorizerId:  {
     'Fn::ImportValue': 'apigateway-ApiGatewayAuthorizerId'
@@ -25,28 +27,17 @@ export class UserService {
   @Inject(UserPersistenceService)
   private readonly persistence: UserPersistenceService;
 
-  private ddb = new DynamoDB();
 
-  private params = {
-    TableName: process.env.DYNAMODB_TABLE
-  };
-
+  // TODO: enable authentication
   @Lambda({
     name: 'findAll',
     path: '/',
     method: 'GET',
-    authorizer: authenticator
+    // authorizer: authenticator
   })
-  public async findAll() {
-
-    this.ddb.scan(this.params, (err, data) => {
-      if (err) {
-        throw err;
-      }
-
-      return data;
-    });
-
+  public async findAll(query?) {
+    d('getting all items from', query);
+    return this.persistence.findAll();
   }
 
   @Lambda({
@@ -66,7 +57,6 @@ export class UserService {
     authorizer: authenticator
   })
   public async create(body) {
-    d('saving user', body);
     return this.persistence.create(body);
   }
 
@@ -105,8 +95,13 @@ export class UserService {
     method: 'GET',
     authorizer: authenticator
   })
-  public async me(principalId): Promise<{ _id: string }> {
-    return this.persistence.findOne(principalId);
+  public async me(Authorization: string): Promise<{}> {
+
+    const decoded = verify(Authorization, process.env['SECRET']) as {};
+    return {
+      ...decoded,
+      token: Authorization
+    };
   }
 
 }

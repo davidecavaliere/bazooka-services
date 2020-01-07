@@ -1,37 +1,61 @@
 import { User } from './user.model';
 import { sign } from 'jsonwebtoken';
 import { getDebugger } from '@microgamma/loggator';
-import { Persistence, PersistenceService } from '@microgamma/datagator';
 import { Injectable } from '@microgamma/digator';
-
+// tslint:disable-next-line:no-implicit-dependencies
+import { DocumentClient } from 'aws-sdk/clients/dynamodb';
+import { Persistence } from '@microgamma/datagator';
+import { DynamodbService } from '@microgamma/dynamodb';
 const d = getDebugger('microgamma:user.persistence.service');
 
+
 @Persistence({
-  uri: process.env['MONGOURI'],
-  dbName: 'test',
-  collection: 'users',
+  tableName: process.env.DYNAMODB_TABLE,
   model: User
 })
 @Injectable()
-export class UserPersistenceService extends PersistenceService<User> {
+export class UserPersistenceService extends DynamodbService<User> {
 
   public async authenticate({email, password}) {
-    const user = await (await this.getCollection()).findOne({ email: email });
+
+    d('quering for user', email, password);
+
+    const params = {
+      TableName: this['tableName'],
+      KeyConditionExpression: '#email = :email',
+      ExpressionAttributeNames:{
+        '#email': 'email'
+      },
+      ExpressionAttributeValues: {
+        ':email': email
+      }
+    };
+
+
+    const user = await (this.ddb as DocumentClient).query(params).promise();
+
     if (!user) {
-      // @ts-ignore
+
       throw new Error(`[403] Unable to authenticate user: ${email}`);
     }
 
+
+
     d('user found', user);
 
-    if (user.authenticate(password)) {
+    // TODO be defensive
+    const parsedUser: User = this.modelFactory(user.Items[0]);
+    d('parsedUser', parsedUser);
 
-      user.token = sign(user, process.env['SECRET']);
 
-      return user;
+    if (parsedUser.authenticate(password)) {
+
+      parsedUser.token = sign(parsedUser.toJSON(), process.env['SECRET']);
+
+      return parsedUser;
     } else {
       // @ts-ignore
-      throw new Error('[403] Unable to authenticate');
+      throw new Error(`[403] Unable to authenticate user: ${email}`);
     }
 
   }
