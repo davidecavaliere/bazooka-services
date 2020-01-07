@@ -1,4 +1,4 @@
-# bazooka-services ![](https://github.com/davidecavaliere/bazooka-services/workflows/.github/workflows/build.yml/badge.svg)
+# bazooka-services ![](https://github.com/davidecavaliere/bazooka-services/workflows/Test+Build/badge.svg)
 
 
 This repo contains an example of how to set up a mono-repo api using the serverless framework and the @microgamma goodies.
