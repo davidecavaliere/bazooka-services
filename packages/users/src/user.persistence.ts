@@ -27,7 +27,7 @@ export class UserPersistenceService extends DynamodbService<User> {
     d('quering for user', email, password);
 
     const params = {
-      TableName: this['tableName'],
+      TableName: this.tableName,
       KeyConditionExpression: '#email = :email',
       ExpressionAttributeNames:{
         '#email': 'email'
