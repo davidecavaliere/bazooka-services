@@ -57,9 +57,9 @@
     ]
   },
   "dependencies": {
-    "@microgamma/apigator": "^1.12.0",
-    "@microgamma/digator": "^1.11.12",
-    "@microgamma/loggator": "^1.11.12",
+    "@microgamma/apigator": "^1.12.3",
+    "@microgamma/digator": "^1.12.3",
+    "@microgamma/loggator": "^1.12.3",
     "jsonwebtoken": "^8.4.0"
   }
 }
