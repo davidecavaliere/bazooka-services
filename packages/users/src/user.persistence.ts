@@ -6,12 +6,18 @@ import { Injectable } from '@microgamma/digator';
 import { DocumentClient } from 'aws-sdk/clients/dynamodb';
 import { Persistence } from '@microgamma/datagator';
 import { DynamodbService } from '@microgamma/dynamodb';
-const d = getDebugger('microgamma:user.persistence.service');
 
+const d = getDebugger('microgamma:user.persistence.service');
 
 @Persistence({
   tableName: process.env.DYNAMODB_TABLE,
-  model: User
+  model: User,
+  options: {
+    region: 'localhost',
+    endpoint: 'http://localhost:8000',
+    accessKeyId: 'DEFAULT_ACCESS_KEY',  // needed if you don't have aws credentials at all in env
+    secretAccessKey: 'DEFAULT_SECRET' // needed if you don't have aws credentials at all in env
+  }
 })
 @Injectable()
 export class UserPersistenceService extends DynamodbService<User> {
