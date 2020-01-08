@@ -24,7 +24,7 @@ plugins:
 
 custom:
   entrypoint: lib/handler
-  buildFolder: /home/developer/src/services/packages/groups/lib
+  buildFolder: /home/davide/dev/services/packages/groups/lib
 
 # you can overwrite defaults here
   stage: dev

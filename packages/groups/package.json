@@ -27,7 +27,8 @@
     "clean": "trash lib",
     "prepare-release": "run-s all version doc:publish",
     "sls": "sls",
-    "deploy": "ls -al"
+    "deploy": "ls -al",
+    "sls:offline": "AUTHORIZER='{\"principalId\": \"123\"}' SLS_DEBUG=* DEBUG=* nodemon -w lib --exec \"sls offline start --host 0.0.0.0 --noAuth\""
   },
   "ava": {
     "files": [

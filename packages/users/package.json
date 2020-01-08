@@ -32,7 +32,7 @@
     "wait": "sleep 10",
     "watch:build-output": "nodemon -w lib --exec \"ls -al lib\"",
     "watch:sls:offline": "run-p build:watch watch:build-output",
-    "sls:offline": "AUTHORIZER='{\"principalId\": \"123\"}' SLS_DEBUG=* DEBUG=microgamma:* nodemon -w lib --exec \"sls offline start --host 0.0.0.0 --noAuth\"",
+    "sls:offline": "AUTHORIZER='{\"principalId\": \"123\"}' SLS_DEBUG=* DEBUG=microgamma:* nodemon -w lib --exec \"sls offline start --host 0.0.0.0 --noAuth --stage test\"",
     "sls:deploy:dev": "yarn build && DEBUG=microgamma:* yarn sls deploy --stage dev",
     "deploy:dev": "DEBUG=microgamma:* yarn sls deploy --stage dev"
   },

@@ -38,13 +38,13 @@ plugins:
 
 custom:
   entrypoint: lib/handler
-  buildFolder: /home/developer/src/services/packages/users/lib
+  buildFolder: /home/davide/dev/services/packages/users/lib
   dynamodb:
     start:
       migrate: true
     # If you only want to use DynamoDB Local in some stages, declare them here
     stages:
-      - dev
+      - test
 
 # you can overwrite defaults here
   stage: dev
