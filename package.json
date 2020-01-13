@@ -97,7 +97,8 @@
     ],
     "collectCoverageFrom": [
       "**/*.ts",
-      "!**/index.ts"
+      "!**/index.ts",
+      "!**/handler.ts"
     ],
     "coverageDirectory": "coverage/"
   }
