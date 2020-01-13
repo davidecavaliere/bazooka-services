@@ -3,9 +3,7 @@ import { UserPersistenceService } from './user.persistence';
 import { getSingleton } from '@microgamma/digator';
 import { getDebugger } from '@microgamma/loggator';
 import { User } from './user.model';
-import { DocumentClient } from 'aws-sdk/lib/dynamodb/document_client';
 import Mock = jest.Mock;
-import QueryOutput = DocumentClient.QueryOutput;
 
 jest.mock('jsonwebtoken', () => {
   return {sign: jest.fn().mockReturnValue('a-token')};
@@ -35,10 +33,11 @@ describe('user.persistence', () => {
               super();
               this.tableName = 'test_table_name';
               // tslint:disable:no-object-literal-type-assertion
+
               this.ddb.query = jest.fn((...args) => {
                 return {
                   promise: this.promiseMock
-                 } as (QueryOutput)
+                 }
 
               });
 

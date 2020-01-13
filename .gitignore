@@ -7,5 +7,4 @@ packages/**/lib
 
 
 *.log
-yarn.lock
 .yarnclean

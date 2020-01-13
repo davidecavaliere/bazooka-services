@@ -15,10 +15,7 @@
     "test": "jest --coverage",
     "test:watch": "jest --watch",
     "test:lint": "tslint --project . ",
-    "cov:send": "codecov",
-    "cov": "run-s build test:unit cov:html && opn coverage/index.html",
-    "cov:html": "nyc report --reporter=html",
-    "cov:check": "nyc report && nyc check-coverage --lines 100 --functions 100 --branches 100",
+    "cov:send": "codecov -t $CODECOV_TOKEN",
     "doc": "run-s doc:html && opn build/docs/index.html",
     "doc:html": "typedoc src/ --target ES6 --mode file --out build/docs",
     "doc:json": "typedoc src/ --target ES6 --mode file --json build/docs/typedoc.json",
@@ -66,7 +63,7 @@
     "tslint": "^5.10.0",
     "tslint-config-prettier": "^1.13.0",
     "tslint-immutable": "^4.5.4",
-    "typescript": "^3.2.2"
+    "typescript": "^3.3.3"
   },
   "jest": {
     "roots": [

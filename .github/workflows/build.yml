@@ -8,7 +8,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: install
-        run: yarn install --frozen-lockfile
+        run: yarn install
       - name: version
         run: yarn tsc -v
       - name: test
