@@ -72,7 +72,7 @@ describe('group.service', () => {
 
   });
 
-  fit('should #create', async () => {
+  it('should #create', async () => {
     const resp = await service.create({
       name: 'group-name',
       users: []
