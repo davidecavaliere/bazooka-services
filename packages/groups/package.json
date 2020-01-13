@@ -73,9 +73,9 @@
     ]
   },
   "dependencies": {
-    "@microgamma/apigator": "^1.12.4",
+    "@microgamma/apigator": "^1.14.1",
     "@microgamma/datagator": "^1.12.3",
-    "@microgamma/mongodb": "^1.12.3",
+    "@microgamma/mongodb": "^1.14.1",
     "@microgamma/digator": "^1.12.4",
     "@microgamma/loggator": "^1.11.12"
   }
