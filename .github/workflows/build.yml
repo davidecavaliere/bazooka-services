@@ -13,6 +13,11 @@ jobs:
         run: yarn tsc -v
       - name: test
         run: yarn test
+      - name: uploaad codecoverage
+        env: # Or as an environment variable
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        run: yarn cov:send -t $CODECOV_TOKEN
+
 
   build:
     runs-on: ubuntu-latest
