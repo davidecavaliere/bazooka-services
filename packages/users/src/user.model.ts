@@ -2,7 +2,7 @@ import crypto = require('crypto');
 import { BaseModel, Column } from '@microgamma/datagator';
 import { getDebugger } from '@microgamma/loggator';
 
-const d = getDebugger('microgamma:user.model');
+const d = getDebugger('bazooka:user.model');
 
 
 export class User extends BaseModel<User> {

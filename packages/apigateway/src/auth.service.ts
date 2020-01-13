@@ -10,7 +10,7 @@ import { Injectable } from '@microgamma/digator';
 })
 @Injectable()
 export class AuthService {
-  @Log('microgamma:auth:service')
+  @Log('bazooka:auth:service')
   private $l;
 
   /*

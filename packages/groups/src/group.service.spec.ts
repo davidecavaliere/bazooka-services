@@ -7,7 +7,7 @@ import { GroupPersistence } from './group.persistence';
 import createSpy = jasmine.createSpy;
 import { EndpointMock } from '@microgamma/apigator';
 
-const d = getDebugger('microgamma:group.service.spec');
+const d = getDebugger('bazooka:group.service.spec');
 
 describe('group.service', () => {
   let service: GroupService;

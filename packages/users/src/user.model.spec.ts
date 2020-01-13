@@ -2,7 +2,7 @@
 import { User } from './user.model';
 import { getDebugger } from '@microgamma/loggator';
 
-const d = getDebugger('microgamma:user.model.spec');
+const d = getDebugger('bazooka:user.model.spec');
 
 describe('user.model', () => {
 

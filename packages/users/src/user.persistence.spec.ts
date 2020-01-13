@@ -10,7 +10,7 @@ jest.mock('jsonwebtoken', () => {
 });
 
 describe('user.persistence', () => {
-  const d = getDebugger('microgamma:user.persistence.spec');
+  const d = getDebugger('bazooka:user.persistence.spec');
 
   let persistence: UserPersistenceService & {
     promiseMock: Mock

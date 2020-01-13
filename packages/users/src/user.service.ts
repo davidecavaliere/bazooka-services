@@ -6,7 +6,7 @@ import { User } from './user.model';
 import { verify } from 'jsonwebtoken';
 // tslint:disable: no-implicit-dependencies
 
-const d = getDebugger('microgamma:user.service');
+const d = getDebugger('bazooka:user.service');
 
 const authenticator = {
 

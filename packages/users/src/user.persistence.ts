@@ -7,7 +7,7 @@ import { DocumentClient, QueryOutput } from 'aws-sdk/clients/dynamodb';
 import { Persistence } from '@microgamma/datagator';
 import { DynamodbService } from '@microgamma/dynamodb';
 
-const d = getDebugger('microgamma:user.persistence.service');
+const d = getDebugger('bazooka:user.persistence.service');
 
 @Persistence({
   tableName: process.env.DYNAMODB_TABLE,

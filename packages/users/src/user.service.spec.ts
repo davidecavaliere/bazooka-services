@@ -8,7 +8,7 @@ import { EndpointMock } from '@microgamma/apigator';
 import { sign } from 'jsonwebtoken';
 import createSpy = jasmine.createSpy;
 
-const d = getDebugger('microgamma:user.service.spec');
+const d = getDebugger('bazooka:user.service.spec');
 
 describe('user.service', () => {
 
