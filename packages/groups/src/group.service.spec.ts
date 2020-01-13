@@ -25,7 +25,9 @@ describe('group.service', () => {
             findOne = createSpy('findOne').and.returnValue(Promise.resolve({id: 'my-id'}));
             findByOwner = createSpy('findByOwner').and.returnValue(Promise.resolve({id: 'owner-id'}));
             findByMember = createSpy('findByMember').and.returnValue(Promise.resolve({id: 'member-id'}));
-            create = createSpy('create');
+            create = createSpy('create').and.callFake((...args) => {
+              return [...args];
+            });
             update = createSpy('update');
             remove = createSpy('remove');
           }

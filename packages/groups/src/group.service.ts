@@ -1,7 +1,7 @@
 import { Body, Endpoint, Header, Lambda, Path } from '@microgamma/apigator';
 import { GroupPersistence } from './group.persistence';
 import { GroupModel } from './group.model';
-import { getDebugger, Log } from '@microgamma/loggator';
+import { Log } from '@microgamma/loggator';
 import { Inject, Injectable } from '@microgamma/digator';
 
 const authenticator = {
@@ -19,8 +19,8 @@ const authenticator = {
 @Injectable()
 export class GroupService {
 
-  // @Log('bazooka:service:groups')
-  private d = getDebugger('bazooka:service:groups');
+  @Log('bazooka:service:groups')
+  private $log;
 
   @Inject(GroupPersistence)
   private persistence: GroupPersistence;
@@ -70,10 +70,6 @@ export class GroupService {
     authorizer: authenticator
   })
   public async create(@Body() body, @Header('principalId') owner) {
-
-    console.log('this', this);
-    console.log('@Log', this.d);
-    this.d('test');
 
     // TODO: casting can be removed once changes to mongodbgator are published
     // tslint:disable: no-object-literal-type-assertion
