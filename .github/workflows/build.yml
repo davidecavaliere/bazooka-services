@@ -7,10 +7,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - name: version
-        run: yarn tsc -v
       - name: install
         run: yarn install --frozen-lockfile
+      - name: version
+        run: yarn tsc -v
       - name: test
         run: yarn test
 
