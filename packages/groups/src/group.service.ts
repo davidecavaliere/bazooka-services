@@ -1,8 +1,9 @@
-import { Endpoint, Lambda } from '@microgamma/apigator';
+import { Body, Endpoint, Header, Lambda, Path } from '@microgamma/apigator';
 import { GroupPersistence } from './group.persistence';
 import { GroupModel } from './group.model';
 import { Log } from '@microgamma/loggator';
 import { Inject, Injectable } from '@microgamma/digator';
+import { ModelType } from '@microgamma/datagator';
 
 const authenticator = {
   type: 'CUSTOM',
@@ -41,7 +42,7 @@ export class GroupService {
     method: 'GET',
     authorizer: authenticator
   })
-  public async findById(id) {
+  public async findById(@Path('id') id) {
     return this.persistence.findOne(id);
   }
 
@@ -50,7 +51,7 @@ export class GroupService {
     method: 'GET',
     authorizer: authenticator
   })
-  public async findByOwner(ownerId) {
+  public async findByOwner(@Path('ownerId') ownerId) {
     return this.persistence.findByOwner(ownerId);
   }
 
@@ -59,7 +60,7 @@ export class GroupService {
     method: 'GET',
     authorizer: authenticator
   })
-  public async findByMember(userId) {
+  public async findByMember(@Path('userId') userId) {
     return this.persistence.findByMember(userId);
   }
 
@@ -69,12 +70,15 @@ export class GroupService {
     method: 'POST',
     authorizer: authenticator
   })
-  public async create(body: GroupModel, principalId: string) {
+  public async create(@Body() body, @Header('principalId') owner) {
     this.d('saving Group', body);
 
-    body.owner = principalId;
-
-    return this.persistence.create(body);
+    // TODO: casting can be removed once changes to mongodbgator are published
+    // tslint:disable: no-object-literal-type-assertion
+    return this.persistence.create({
+      ...body,
+      owner
+    } as GroupModel);
   }
 
   @Lambda({
@@ -83,7 +87,7 @@ export class GroupService {
     method: 'PUT',
     authorizer: authenticator
   })
-  public async update(body) {
+  public async update(@Body() body) {
     return this.persistence.update(body);
   }
 
@@ -93,7 +97,7 @@ export class GroupService {
     method: 'DELETE',
     authorizer: authenticator
   })
-  public async remove(id) {
+  public async remove(@Path('id') id) {
     return this.persistence.delete(id);
   }
 

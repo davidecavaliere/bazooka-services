@@ -28,13 +28,20 @@ describe('user.model', () => {
     expect(instance.name).toEqual(user.name);
     expect(instance.email).toEqual(user.email);
   
-    // TODO add the following checks
-    // expect.is(instance.hashedPassword, );
-    // expect.is(instance.salt, 'abc');
-    // expect.is(instance.realms, 'testcompany');
-  
     expect(instance.settings).toBeFalsy();
   
+  });
+
+  describe('#authenticate', () => {
+    it('should not authenticate an invalid password', () => {
+      expect(instance.authenticate('abc')).toBeFalsy();
+    });
+
+    it('should authenticate a valid password', () => {
+      d('password', instance.hashedPassword);
+      expect(instance.authenticate('my-password')).toBeTruthy();
+    });
+
   });
   
 });

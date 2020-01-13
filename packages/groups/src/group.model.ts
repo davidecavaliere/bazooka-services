@@ -2,7 +2,9 @@ import { BaseModel, Column } from '@microgamma/datagator';
 
 export class GroupModel extends BaseModel<GroupModel> {
 
-  @Column()
+  @Column({
+    primaryKey: true
+  })
   public _id?: string;
 
   @Column()
@@ -12,7 +14,7 @@ export class GroupModel extends BaseModel<GroupModel> {
   public users: string[];
 
   @Column()
-  public owner: string;
+  public owner?: string;
 
 }
 

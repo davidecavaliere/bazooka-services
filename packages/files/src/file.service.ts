@@ -1,7 +1,6 @@
-import { Endpoint, Lambda } from '@microgamma/apigator';
+import { Body, Endpoint, Lambda, Path } from '@microgamma/apigator';
 import { Log } from '@microgamma/loggator';
 import { Injectable } from '@microgamma/digator';
-import { APIGatewayEventRequestContext } from 'aws-lambda';
 import { extension } from 'mime-types';
 import S3 = require('aws-sdk/clients/s3');
 import uuid = require('uuid');
@@ -32,7 +31,7 @@ export class FileService {
     method: 'POST',
     path: '/getSignedUrl'
   })
-  public async getSignedUrl(metadata) {
+  public async getSignedUrl(@Body() metadata) {
     this.$l('got metadata', metadata);
     const url = this.s3.getSignedUrl('putObject', {
       Bucket: this.bucket,
@@ -40,7 +39,7 @@ export class FileService {
       Key: uuid.v4(metadata.filename)
     });
 
-    return {url: url};
+    return {url};
 
   }
 
@@ -50,10 +49,8 @@ export class FileService {
     path: '/getSignedUrl/{fileId}',
     integration: 'lambda-proxy'
   })
-  public async downloadFile(fileId, context: APIGatewayEventRequestContext) {
+  public async downloadFile(@Path('fileId')fileId) {
     return new Promise((res, rej) => {
-
-      this.$l('context is', context);
 
       this.s3.headObject({
         Bucket: this.bucket,

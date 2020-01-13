@@ -3,7 +3,7 @@ import { sign } from 'jsonwebtoken';
 import { getDebugger } from '@microgamma/loggator';
 import { Injectable } from '@microgamma/digator';
 // tslint:disable-next-line:no-implicit-dependencies
-import { DocumentClient } from 'aws-sdk/clients/dynamodb';
+import { DocumentClient, QueryOutput } from 'aws-sdk/clients/dynamodb';
 import { Persistence } from '@microgamma/datagator';
 import { DynamodbService } from '@microgamma/dynamodb';
 
@@ -38,16 +38,13 @@ export class UserPersistenceService extends DynamodbService<User> {
     };
 
 
-    const user = await (this.ddb as DocumentClient).query(params).promise();
+    const user: QueryOutput = await (this.ddb as DocumentClient).query(params).promise();
+    d({user});
 
-    if (!user) {
+    if (!user || user.Count === 0) {
 
-      throw new Error(`[403] Unable to authenticate user: ${email}`);
+      throw new Error(`[404] User not found with email: ${email}`);
     }
-
-
-
-    d('user found', user);
 
     // TODO be defensive
     const parsedUser: User = this.modelFactory(user.Items[0]);

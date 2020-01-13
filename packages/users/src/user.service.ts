@@ -1,4 +1,4 @@
-import { Endpoint, Lambda } from '@microgamma/apigator';
+import { Body, Endpoint, Header, Lambda, Path } from '@microgamma/apigator';
 import { UserPersistenceService } from './user.persistence';
 import { getDebugger } from '@microgamma/loggator';
 import { Inject, Injectable } from '@microgamma/digator';
@@ -30,23 +30,20 @@ export class UserService {
 
   // TODO: enable authentication
   @Lambda({
-    name: 'findAll',
     path: '/',
     method: 'GET',
-    // authorizer: authenticator
+    authorizer: authenticator
   })
-  public async findAll(query?) {
-    d('getting all items from', query);
+  public async findAll() {
     return this.persistence.findAll();
   }
 
   @Lambda({
-    name: 'findById',
     path: '/{id}',
     method: 'GET',
     authorizer: authenticator
   })
-  public async findById(id) {
+  public async findById(@Path('id') id) {
     return this.persistence.findOne(id);
   }
 
@@ -56,7 +53,7 @@ export class UserService {
     method: 'POST',
     authorizer: authenticator
   })
-  public async create(body) {
+  public async create(@Body() body) {
     return this.persistence.create(body);
   }
 
@@ -66,7 +63,7 @@ export class UserService {
     method: 'PUT',
     authorizer: authenticator
   })
-  public async update(body) {
+  public async update(@Body() body) {
     return this.persistence.update(body);
   }
 
@@ -76,7 +73,7 @@ export class UserService {
     method: 'DELETE',
     authorizer: authenticator
   })
-  public async remove(id) {
+  public async remove(@Path('id') id) {
     return this.persistence.delete(id);
   }
 
@@ -85,7 +82,7 @@ export class UserService {
     path: '/auth',
     method: 'POST'
   })
-  public async authenticate(body): Promise<User> {
+  public async authenticate(@Body() body): Promise<User> {
     d('authenticating user with', body);
     return this.persistence.authenticate({email: body.email, password: body.password});
   }
@@ -95,12 +92,13 @@ export class UserService {
     method: 'GET',
     authorizer: authenticator
   })
-  public async me(Authorization: string): Promise<{}> {
+  public async me(@Header('Authorization') auth: string): Promise<{}> {
+    d({auth});
 
-    const decoded = verify(Authorization, process.env['SECRET']) as {};
+    const decoded = verify(auth, process.env['SECRET']) as {};
     return {
       ...decoded,
-      token: Authorization
+      token: auth
     };
   }
 
