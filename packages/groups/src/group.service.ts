@@ -3,6 +3,7 @@ import { GroupPersistence } from './group.persistence';
 import { GroupModel } from './group.model';
 import { Log } from '@microgamma/loggator';
 import { Inject, Injectable } from '@microgamma/digator';
+import { ModelType } from '@microgamma/datagator';
 
 const authenticator = {
   type: 'CUSTOM',
@@ -85,7 +86,7 @@ export class GroupService {
     method: 'PUT',
     authorizer: authenticator
   })
-  public async update(@Body() body) {
+  public async update(@Body() body: ModelType<GroupModel>) {
     return this.persistence.update(body);
   }
 
