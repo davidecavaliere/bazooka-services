@@ -42,7 +42,7 @@
   },
   "dependencies": {
     "@microgamma/apigator": "^1.14.1",
-    "@microgamma/digator": "^1.12.4",
+    "@microgamma/digator": "^1.14.2",
     "@microgamma/loggator": "^1.12.3",
     "@types/mime-types": "^2.1.0",
     "@types/uuid": "^3.4.4",
