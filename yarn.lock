@@ -991,6 +991,16 @@
     "@types/aws-lambda" "^8.10.11"
     reflect-metadata "^0.1.12"
 
+"@microgamma/apigator@^1.14.2":
+  version "1.14.2"
+  resolved "https://registry.yarnpkg.com/@microgamma/apigator/-/apigator-1.14.2.tgz#dcf6550cda22e9893edc9b3f88d3877de2fbed0c"
+  integrity sha512-T7fRNd6VE643/rlSANtRU/Aoggdcf4/SUory4fjV55hmaa1kytrUHZLyBO5Fu4uMuhZY+h3BebTLiIVLpclJkQ==
+  dependencies:
+    "@microgamma/digator" "^1.14.2"
+    "@microgamma/loggator" "^1.12.3"
+    "@types/aws-lambda" "^8.10.11"
+    reflect-metadata "^0.1.12"
+
 "@microgamma/datagator@^1.12.3":
   version "1.12.3"
   resolved "https://registry.yarnpkg.com/@microgamma/datagator/-/datagator-1.12.3.tgz#22a6ba1198d2586128300497063eb0140b8beee5"
@@ -1004,6 +1014,14 @@
   version "1.12.4"
   resolved "https://registry.yarnpkg.com/@microgamma/digator/-/digator-1.12.4.tgz#66148ffe7d950a7b0233e9865eb7dc6bd75798ac"
   integrity sha512-x1IwN2TJ5jHDMuu4AK2NlucDkwEDKtbCaH6JzSMy4jr3gelTvW8pIwSb4jTciXo4v6iASdgi6JyLBGYNHW3nEg==
+  dependencies:
+    "@microgamma/loggator" "^1.12.3"
+    reflect-metadata "^0.1.12"
+
+"@microgamma/digator@^1.14.2":
+  version "1.14.2"
+  resolved "https://registry.yarnpkg.com/@microgamma/digator/-/digator-1.14.2.tgz#4e91e380d8a83d897d77be885c0f3836a442b85f"
+  integrity sha512-gO76PDnbzKh9lLujwdRBmc+GwdUiMyExvn76q2EFaBEz5p31PI9/vLnGMOf8ff4BodmsPEyH8BY+MbW2192hpA==
   dependencies:
     "@microgamma/loggator" "^1.12.3"
     reflect-metadata "^0.1.12"
