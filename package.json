@@ -40,7 +40,6 @@
     "@microgamma/serverless-apigator": "^1.12.3",
     "@types/jest": "^23.3.13",
     "@types/jsonwebtoken": "^7.2.8",
-    "chakram": "^1.5.0",
     "codecov": "^3.0.2",
     "cz-conventional-changelog": "^2.1.0",
     "gh-pages": "^1.2.0",
