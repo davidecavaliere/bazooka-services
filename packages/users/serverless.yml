@@ -37,8 +37,9 @@ plugins:
   - serverless-offline
 
 custom:
-  entrypoint: lib/handler
-  buildFolder: /home/davide/dev/services/packages/users/lib
+  apigator:
+    entrypoint: lib/handler
+    buildFolder: /home/davide/dev/services/packages/users/lib
   dynamodb:
     start:
       migrate: true

@@ -44,8 +44,9 @@ plugins:
   - serverless-offline
 
 custom:
-  entrypoint: lib/handler
-  buildFolder: /home/developer/src/services/packages/files/lib
+  apigator:
+    entrypoint: lib/handler
+    buildFolder: /home/developer/src/services/packages/files/lib
 
   localstack:
     host: http://192.168.254.3

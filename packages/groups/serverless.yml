@@ -23,8 +23,9 @@ plugins:
   - serverless-offline
 
 custom:
-  entrypoint: lib/handler
-  buildFolder: /home/davide/dev/services/packages/groups/lib
+  apigator:
+    entrypoint: lib/handler
+    buildFolder: /home/davide/dev/services/packages/groups/lib
 
 # you can overwrite defaults here
   stage: dev

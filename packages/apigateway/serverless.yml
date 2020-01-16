@@ -29,8 +29,9 @@ plugins:
   - serverless-offline
 
 custom:
-  entrypoint: lib/handler
-  buildFolder: /home/developer/src/services/packages/apigateway/lib
+  apigtor:
+    entrypoint: lib/handler
+    buildFolder: /home/developer/src/services/packages/apigateway/lib
 
 package:
   exclude:
