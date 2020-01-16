@@ -987,10 +987,10 @@
     mongodb "^3.1.10"
     reflect-metadata "^0.1.12"
 
-"@microgamma/serverless-apigator@^1.12.3":
-  version "1.12.3"
-  resolved "https://registry.yarnpkg.com/@microgamma/serverless-apigator/-/serverless-apigator-1.12.3.tgz#aca3be9266341251e82d75ecd3701a9c142315bf"
-  integrity sha512-wPW3nIB2V1vLfbmbEJQ/U1kL9oiD2vzIEyEm4eGdRv7eAcESAGIvQazMPEq00MGR5WIRj+Hlhi/wja9OS24AXg==
+"@microgamma/serverless-apigator@^1.14.4":
+  version "1.14.4"
+  resolved "https://registry.yarnpkg.com/@microgamma/serverless-apigator/-/serverless-apigator-1.14.4.tgz#1e5980edf43e4a72bc3dd114a6b5bc9f8f43ca8a"
+  integrity sha512-Qpw03gXBz9prAbu5ZFCC+ZaV7I2VbGeOF0siLszIkNF5G3P8bFFDftDmsdXqW5IXDw/USb4UPzfEuRX3uXapQQ==
   dependencies:
     "@microgamma/loggator" "^1.12.3"
     "@types/aws-sdk" "^2.7.0"
@@ -1136,6 +1136,13 @@
   integrity sha1-g1iLPRTr3KHUzl4CM4dXdWjOgvM=
   dependencies:
     aws-sdk "*"
+
+"@types/axios@^0.14.0":
+  version "0.14.0"
+  resolved "https://registry.yarnpkg.com/@types/axios/-/axios-0.14.0.tgz#ec2300fbe7d7dddd7eb9d3abf87999964cafce46"
+  integrity sha1-7CMA++fX3d1+udOr+HmZlkyvzkY=
+  dependencies:
+    axios "*"
 
 "@types/babel__core@^7.1.0":
   version "7.1.1"
@@ -1675,6 +1682,13 @@ aws-sign2@~0.7.0:
 aws4@^1.6.0:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.7.0.tgz#d4d0e9b9dbfca77bf08eeb0a8a471550fe39e289"
+
+axios@*, axios@^0.19.1:
+  version "0.19.1"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.19.1.tgz#8a6a04eed23dfe72747e1dd43c604b8f1677b5aa"
+  integrity sha512-Yl+7nfreYKaLRvAvjNPkvfjnQHJM1yLBY3zhqAwcJSwR/6ETkanUgylgtIvkvz0xJ+p/vZuNw8X7Hnb7Whsbpw==
+  dependencies:
+    follow-redirects "1.5.10"
 
 b64@3.x.x:
   version "3.0.3"
@@ -2883,7 +2897,7 @@ debug@2.6.9, debug@^2.1.2, debug@^2.2.0, debug@^2.3.3:
   dependencies:
     ms "2.0.0"
 
-debug@3.1.0:
+debug@3.1.0, debug@=3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/debug/-/debug-3.1.0.tgz#5bb5a0672628b64149566ba16819e61518c67261"
   dependencies:
@@ -3802,6 +3816,13 @@ flush-write-stream@^1.0.0:
   dependencies:
     inherits "^2.0.1"
     readable-stream "^2.0.4"
+
+follow-redirects@1.5.10:
+  version "1.5.10"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.5.10.tgz#7b7a9f9aea2fdff36786a94ff643ed07f4ff5e2a"
+  integrity sha512-0V5l4Cizzvqt5D44aTXbFZz+FtyXV1vrDN6qrelxtfYQKW0KO0W2T/hkE8xvGa/540LkZlkaUjO4ailYTFtHVQ==
+  dependencies:
+    debug "=3.1.0"
 
 for-in@^1.0.2:
   version "1.0.2"
