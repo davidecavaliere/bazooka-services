@@ -55,7 +55,7 @@
     "serverless-domain-manager": "^2.6.11",
     "serverless-offline": "^3.25.9",
     "serverless-plugin-monorepo": "^0.5.0",
-    "standard-version": "^4.4.0",
+    "standard-version": "^8.0.1",
     "trash-cli": "^1.4.0",
     "ts-jest": "^24.0.2",
     "ts-node": "^8.0.3",
