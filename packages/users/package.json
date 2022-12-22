@@ -62,7 +62,7 @@
     "@microgamma/dynamodb": "^1.12.3",
     "@microgamma/digator": "^1.14.2",
     "@microgamma/loggator": "^1.12.3",
-    "jsonwebtoken": "^8.4.0"
+    "jsonwebtoken": "^9.0.0"
   },
   "devDependencies": {
     "serverless": "^1.30.1",
