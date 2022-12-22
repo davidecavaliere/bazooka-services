@@ -60,6 +60,6 @@
     "@microgamma/apigator": "^1.14.2",
     "@microgamma/digator": "^1.14.2",
     "@microgamma/loggator": "^1.12.3",
-    "jsonwebtoken": "^8.4.0"
+    "jsonwebtoken": "^9.0.0"
   }
 }
